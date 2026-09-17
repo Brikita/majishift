@@ -920,3 +920,66 @@ footer {
   font-size: 14px;
   color: #526673;
 }
+.assumed-network {
+  margin: 17px 0;
+  padding: 13px;
+  border: 1px dashed #9fb2ba;
+  border-radius: 9px;
+  background: #f4f8f9;
+}
+
+.assumed-network-head {
+  display: flex;
+  justify-content: space-between;
+  gap: 9px;
+  margin-bottom: 10px;
+}
+
+.assumed-network-head span {
+  color: #173342;
+  font-size: 13px;
+  font-weight: 700;
+}
+
+.assumed-network-head strong {
+  color: #956211;
+  font-size: 10px;
+  letter-spacing: 0.5px;
+  text-align: right;
+  text-transform: uppercase;
+}
+
+.network-flow {
+  display: grid;
+  gap: 4px;
+}
+
+.network-flow > span {
+  display: flex;
+  align-items: center;
+  gap: 7px;
+  color: #3d5965;
+  font-size: 12px;
+}
+
+.network-flow > i {
+  height: 10px;
+  margin-left: 7px;
+  color: #8397a0;
+  font-size: 11px;
+  font-style: normal;
+  line-height: 10px;
+}
+
+.network-flow .network-branch {
+  margin-top: 3px;
+  padding-left: 20px;
+  border-left: 1px solid #aabac0;
+  color: #36725e;
+}
+
+.assumed-network p {
+  margin: 10px 0 0;
+  color: #6b7d85;
+  font-size: 11px;
+}

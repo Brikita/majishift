@@ -15,6 +15,7 @@ React + TypeScript, Vinext/Vite, Tailwind and Shadcn components. A pure TypeScri
 ## Read next
 
 - [Complete teammate handoff and remaining work](docs/TEAM_HANDOFF.md)
+- [Submission assumption register and claim boundaries](docs/ASSUMPTIONS.md)
 - [Operator answers mapped to build decisions](docs/OPERATOR_BRANCHES.md)
 - [Detailed operator meeting form](docs/OPERATOR_FIELD_FORM.md)
 - [GIS and 3D campus specification](docs/GIS_SPEC.md)

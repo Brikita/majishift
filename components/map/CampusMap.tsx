@@ -6,8 +6,10 @@ import {
   Building2,
   CloudRain,
   Droplets,
+  Factory,
   LocateFixed,
   MapPinned,
+  Sprout,
 } from 'lucide-react';
 import type { Day } from '@/lib/planner';
 import { Button } from '@/components/ui/button';
@@ -199,7 +201,8 @@ export function CampusMap({
 
           const campusMarker = document.createElement('div');
           campusMarker.className = 'atlas-map-marker campus';
-          campusMarker.innerHTML = '<span></span><strong>Campus reference</strong>';
+          campusMarker.innerHTML =
+            '<span></span><strong>Campus reference</strong>';
           new maplibre.Marker({ element: campusMarker, anchor: 'bottom' })
             .setLngLat(JKUAT_CAMPUS)
             .addTo(map);
@@ -386,6 +389,33 @@ export function CampusMap({
             <span>{row.reason}</span>
           </div>
 
+          <div className="assumed-network">
+            <div className="assumed-network-head">
+              <span>Assumed pilot network</span>
+              <strong>Current routing unverified</strong>
+            </div>
+            <div className="network-flow">
+              <span>
+                <Droplets size={15} /> Ndarugu source / intake
+              </span>
+              <i>↓</i>
+              <span>
+                <Droplets size={15} /> JKUAT Dam
+              </span>
+              <i>↓</i>
+              <span>
+                <Factory size={15} /> Treatment + essential use
+              </span>
+              <span className="network-branch">
+                <Sprout size={15} /> Irrigation branch
+              </span>
+            </div>
+            <p>
+              Schematic from historical context; asset links are not mapped pipe
+              routes.
+            </p>
+          </div>
+
           <div className="asset-evidence">
             <span>
               <i className="verified" /> Dam point: OpenStreetMap way 330895323
@@ -394,8 +424,8 @@ export function CampusMap({
               <i /> Campus reference: OpenStreetMap
             </span>
             <span>
-              <i className="pending" /> Pipes, treatment and demand areas:
-              pending
+              <i className="pending" /> Current pipes, treatment and demand
+              areas: assumed
             </span>
           </div>
         </aside>

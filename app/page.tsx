@@ -114,6 +114,16 @@ export default function Home() {
       product: 'MajiShift',
       mode: 'synthetic scenario — not campus operations',
       createdAt: new Date().toISOString(),
+      assumptions: {
+        status: 'unverified scenario inputs',
+        topology:
+          'Historical-context schematic: Ndarugu source/intake → JKUAT Dam → treatment/essential use, with an irrigation branch.',
+        weather: 'Synthetic seven-day rainfall and constant evaporation.',
+        operations:
+          'Capacity, starting storage, reserve, demands, pump delivery, availability and outage are editable invented defaults.',
+        requiredReview:
+          'Confirm every input and current system connection before operational use.',
+      },
       config,
       ...result,
     };
