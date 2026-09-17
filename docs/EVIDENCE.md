@@ -11,5 +11,7 @@ Reviewed September 10, 2026. Earlier research is context, not current operationa
 | AutoScientist SDK workflow | https://docs.adaptionlabs.ai/autoscientist-quickstart/ | Reviewed; not account-tested |
 | Training controls and idempotency | https://docs.adaptionlabs.ai/autoscientist/running-autoscientist/ | Reviewed; model availability requires account query |
 | Checkpoint export | https://docs.adaptionlabs.ai/autoscientist/download-the-model/ | Separate serving needed |
+| JKUAT Dam open-map point (OSM way 330895323) | https://mapcarta.com/W330895323 | Map context only; operator identity/topology confirmation still required |
+| JKUAT campus open-map reference (OSM way 128618822) | https://www.openstreetmap.org/way/128618822 | Campus context; not a water-system asset map |
 
 All current simulator numbers are deliberately invented, including capacity (20,000 m³), surface area, initial storage, reserve, demand, pump delivery, outage and rain. They do not represent JKUAT measurements. The prototype makes no eligibility, savings, drinking-water quality, or live-data claim.

@@ -21,6 +21,7 @@ import {
   TableCell,
 } from '@/components/ui/table';
 import { defaults, compare, validate, type Config } from '@/lib/planner';
+import { CampusMap } from '@/components/map/CampusMap';
 const number = (n: number) => Math.round(n).toLocaleString('en-KE');
 export default function Home() {
   const [config, setConfig] = useState<Config>({ ...defaults }),
@@ -232,6 +233,12 @@ export default function Home() {
                 </span>
               </div>
             </div>
+            <CampusMap
+              baseline={result.baseline}
+              capacity={config.capacity}
+              plan={result.plan}
+              reserve={config.reserve}
+            />
             <section className="chart-card">
               <div className="section-head">
                 <div>
@@ -352,7 +359,27 @@ export default function Home() {
                 </p>
               </div>
             </section>
-            {previous && <section className="change-card" aria-live="polite"><p className="eyebrow">WHAT CHANGED?</p><h2>The effect of your last edit</h2><p>{fields.filter(f=>previous[f.key]!==config[f.key]).map(f=>`${f.label}: ${previous[f.key]} → ${config[f.key]} ${f.unit}`).join(' · ') || 'No input values changed.'}</p><p>Lowest proposed end-of-day storage: {number(compare(previous).minimum)} → {number(result.minimum)} m³. This comparison changes all edited inputs together; it does not isolate individual causes.</p></section>}
+            {previous && (
+              <section className="change-card" aria-live="polite">
+                <p className="eyebrow">WHAT CHANGED?</p>
+                <h2>The effect of your last edit</h2>
+                <p>
+                  {fields
+                    .filter((f) => previous[f.key] !== config[f.key])
+                    .map(
+                      (f) =>
+                        `${f.label}: ${previous[f.key]} → ${config[f.key]} ${f.unit}`,
+                    )
+                    .join(' · ') || 'No input values changed.'}
+                </p>
+                <p>
+                  Lowest proposed end-of-day storage:{' '}
+                  {number(compare(previous).minimum)} → {number(result.minimum)}{' '}
+                  m³. This comparison changes all edited inputs together; it
+                  does not isolate individual causes.
+                </p>
+              </section>
+            )}
             <section className="schedule">
               <div className="section-head">
                 <div>

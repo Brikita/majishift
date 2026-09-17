@@ -4,7 +4,7 @@ Help reservoir operators compare pumping plans and maintain essential water rese
 
 ## Current slice
 
-A working seven-day scenario calculator with a reserve-first planning heuristic, fixed-schedule comparison, editable assumptions, shortfall accounting, an accessible daily table, and JSON export. All current inputs and rainfall are synthetic. This is not a live campus system, a validated digital twin, or an optimization proof.
+A working seven-day scenario calculator with a reserve-first planning heuristic, fixed-schedule comparison, editable assumptions, shortfall accounting, an accessible daily table, JSON export, and a responsive JKUAT campus atlas. The atlas uses open-map context, a published JKUAT Dam point, 2D/3D views, a day selector, and the same proposed/fixed calculations as the rest of the interface. All current operating inputs and rainfall are synthetic. Pipe routes, treatment links, demand areas and the dam profile remain unverified. This is not a live campus system, a validated digital twin, or an optimization proof.
 
 ## Run
 
@@ -14,6 +14,11 @@ React + TypeScript, Vinext/Vite, Tailwind and Shadcn components. A pure TypeScri
 
 ## Read next
 
+- [Complete teammate handoff and remaining work](docs/TEAM_HANDOFF.md)
+- [Operator answers mapped to build decisions](docs/OPERATOR_BRANCHES.md)
+- [Detailed operator meeting form](docs/OPERATOR_FIELD_FORM.md)
+- [GIS and 3D campus specification](docs/GIS_SPEC.md)
+- [Copyable IDE coding-agent brief](docs/CODING_AGENT_BRIEF.md)
 - [Project specification](docs/PROJECT.md)
 - [Operator interview](docs/OPERATOR_INTERVIEW.md)
 - [Adaption experiment](docs/ADAPTION.md)
@@ -23,4 +28,4 @@ No Adaption model has been trained. Training needs an activated account, API key
 
 ## Verification
 
-September 11: planner tests pass (including 200 stress scenarios), TypeScript and application lint pass, and the production build succeeds. The Adaption evaluator accepts exact fixtures and rejects invalid/missing outputs; this is not a model benchmark. npm reported zero dependency vulnerabilities after the pinned upgrades. Lint excludes the unmodified Shadcn component catalog and its mobile hook. Optional WebMCP registration is implemented but has not been verified in a supporting browser. No field validation or browser interaction test has been performed.
+September 17: planner tests pass (including 200 stress scenarios), TypeScript and application lint pass, and the production build succeeds. The Adaption evaluator accepts exact fixtures and rejects invalid/missing outputs; this is not a model benchmark. npm reported zero dependency vulnerabilities after the pinned upgrades. Lint excludes the unmodified Shadcn component catalog and its mobile hook. WebMCP registration was observed in the local supporting browser. Campus-atlas interactions were checked at phone, tablet and normal in-app browser widths; the mobile page has no horizontal overflow, map controls remain touch-sized, and the timeline scrolls within its component. There is still no field validation, real-device test or assistive-technology user test.

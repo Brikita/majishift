@@ -1,5 +1,7 @@
 # Operator conversation — September 11
 
+Expanded meeting checklist: [Operator field form](OPERATOR_FIELD_FORM.md). After the meeting use [answer-to-decision branches](OPERATOR_BRANCHES.md) and [teammate handoff](TEAM_HANDOFF.md).
+
 Opening: We are students exploring a planning prototype for Hack The Weather. We want to understand one difficult decision in your current water system before choosing the final features. We are not asking to control equipment.
 
 ## Start with a real example
