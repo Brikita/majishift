@@ -21,7 +21,7 @@ Every operating value remains editable in the application. Replace this register
 | Reservoir surface area | 8,000 m² | Invented scenario value | Survey or GIS water-surface polygon |
 | Evaporation | 4 mm/day | Constant synthetic value | Local observation or weather-data series |
 | Simulated outage | Days 2–3 | Invented stress event | Known maintenance or outage forecast |
-| Seven-day rainfall | 0, 0, 2, 8, 4, 0, 0 mm | Synthetic scenario | Authorized forecast or measured rainfall |
+| Seven-day rainfall | Day 1: latest mean of Conduit station 61 cumulative gauges; Days 2–7: 0, 2, 8, 4, 0, 0 mm | Mixed observation/scenario | Confirm gauge semantics and add an authorized forecast for future days |
 
 ## Assumed network topology
 
@@ -35,6 +35,7 @@ This schematic is based on historical context, not on a verified current pipe su
 
 - The JKUAT Dam marker uses the public OpenStreetMap feature identified as way 330895323 near 37.0186°E, 1.0926°S.
 - The campus reference marker comes from public OpenStreetMap context.
+- The Conduit station marker uses the coordinates returned with the latest station 61 observation.
 - Pipes, valves, meters, pumps, treatment units, demand zones and ownership boundaries have not been verified.
 - The 3D buildings are visualization context from the public map style. Their presence does not establish water-system connectivity.
 
@@ -52,18 +53,18 @@ This schematic is based on historical context, not on a verified current pipe su
 ## Claims the team may make
 
 - MajiShift demonstrates transparent seven-day reservoir planning under rainfall, demand, pumping, reserve and outage scenarios.
+- It uses the latest public Conduit station observation in Day 1 direct-rain accounting and preserves its timestamp and two gauge totals.
 - It compares an adaptive proposal with a fixed schedule using visible water accounting.
 - It gives judges an interactive, mobile-compatible GIS context and an auditable explanation for each daily decision.
 - The interface is ready for site-specific calibration once verified inputs become available.
 
 ## Claims the team must not make
 
-- The displayed values are live JKUAT readings or official records.
+- The displayed reservoir storage, demand, capacity, pumping and future rainfall values are live JKUAT readings or official records. The separately labelled Conduit station card is the only live observation.
 - The displayed water network is a surveyed or authoritative pipe map.
 - The suggested schedule has been approved by JKUAT or a reservoir operator.
 - The system currently controls pumps, guarantees water availability or predicts water quality.
 
 ## Honest demo wording
 
-> We could not validate current operating records before the deadline, so this is an assumption-driven scenario prototype. The dam point comes from OpenStreetMap, the system flow comes from historical context, and every operating number is editable and visibly marked synthetic. Our contribution is the decision workflow and testable water accounting. Deployment would begin by replacing these assumptions with a verified site configuration and authorized observations.
-
+> We could not validate current operating records before the deadline, so this is a mixed-evidence scenario prototype. The latest public Conduit station observation supplies Day 1 rainfall and environmental context. The dam point comes from OpenStreetMap, while the system flow and every reservoir operating number remain editable assumptions. Our contribution is the traceable path from observation to water balance to reviewable action. Deployment would begin by verifying the site configuration, gauge semantics and operator workflow.

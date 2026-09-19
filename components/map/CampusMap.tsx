@@ -19,10 +19,12 @@ type CampusMapProps = {
   capacity: number;
   plan: Day[];
   reserve: number;
+  stationCoordinates: [number, number] | null;
 };
 
 const JKUAT_DAM: [number, number] = [37.0186, -1.0926];
 const JKUAT_CAMPUS: [number, number] = [37.01136, -1.09153];
+const CONDUIT_STATION: [number, number] = [37.014528, -1.099736];
 const number = (value: number) => Math.round(value).toLocaleString('en-KE');
 
 export function CampusMap({
@@ -30,6 +32,7 @@ export function CampusMap({
   capacity,
   plan,
   reserve,
+  stationCoordinates,
 }: CampusMapProps) {
   const containerRef = useRef<HTMLDivElement>(null);
   const mapRef = useRef<import('maplibre-gl').Map | null>(null);
@@ -39,6 +42,8 @@ export function CampusMap({
   const [mapStatus, setMapStatus] = useState<'loading' | 'ready' | 'fallback'>(
     'loading',
   );
+  const stationLongitude = stationCoordinates?.[0] ?? CONDUIT_STATION[0];
+  const stationLatitude = stationCoordinates?.[1] ?? CONDUIT_STATION[1];
 
   const row = comparison === 'plan' ? plan[selectedDay] : baseline[selectedDay];
   const fill = Math.max(0, Math.min(100, (row.end / capacity) * 100));
@@ -134,6 +139,17 @@ export function CampusMap({
                   properties: { id: 'campus', label: 'JKUAT campus reference' },
                   geometry: { type: 'Point', coordinates: JKUAT_CAMPUS },
                 },
+                {
+                  type: 'Feature',
+                  properties: {
+                    id: 'conduit',
+                    label: 'Conduit station 61',
+                  },
+                  geometry: {
+                    type: 'Point',
+                    coordinates: [stationLongitude, stationLatitude],
+                  },
+                },
               ],
             },
           });
@@ -144,17 +160,23 @@ export function CampusMap({
             paint: {
               'circle-radius': ['case', ['==', ['get', 'id'], 'dam'], 18, 11],
               'circle-color': [
-                'case',
-                ['==', ['get', 'id'], 'dam'],
+                'match',
+                ['get', 'id'],
+                'dam',
                 '#087f84',
+                'conduit',
+                '#d58a1f',
                 '#173342',
               ],
               'circle-opacity': 0.18,
               'circle-stroke-width': 2,
               'circle-stroke-color': [
-                'case',
-                ['==', ['get', 'id'], 'dam'],
+                'match',
+                ['get', 'id'],
+                'dam',
                 '#087f84',
+                'conduit',
+                '#d58a1f',
                 '#173342',
               ],
             },
@@ -166,9 +188,12 @@ export function CampusMap({
             paint: {
               'circle-radius': ['case', ['==', ['get', 'id'], 'dam'], 7, 5],
               'circle-color': [
-                'case',
-                ['==', ['get', 'id'], 'dam'],
+                'match',
+                ['get', 'id'],
+                'dam',
                 '#087f84',
+                'conduit',
+                '#d58a1f',
                 '#173342',
               ],
               'circle-stroke-width': 2,
@@ -207,6 +232,14 @@ export function CampusMap({
             .setLngLat(JKUAT_CAMPUS)
             .addTo(map);
 
+          const conduitMarker = document.createElement('div');
+          conduitMarker.className = 'atlas-map-marker conduit';
+          conduitMarker.innerHTML =
+            '<span></span><strong>Conduit station 61</strong>';
+          new maplibre.Marker({ element: conduitMarker, anchor: 'bottom' })
+            .setLngLat([stationLongitude, stationLatitude])
+            .addTo(map);
+
           map.on('click', 'majishift-asset-core', (event) => {
             const feature = event.features?.[0];
             if (!feature || feature.geometry.type !== 'Point') return;
@@ -238,7 +271,7 @@ export function CampusMap({
       mapRef.current?.remove();
       mapRef.current = null;
     };
-  }, []);
+  }, [stationLatitude, stationLongitude]);
 
   useEffect(() => {
     const map = mapRef.current;
@@ -274,8 +307,9 @@ export function CampusMap({
           <p className="eyebrow">CAMPUS WATER ATLAS</p>
           <h2 id="campus-atlas-title">See the plan in place.</h2>
           <p>
-            The dam location and campus reference come from OpenStreetMap.
-            Supply connections still need operator confirmation.
+            The dam and campus reference come from OpenStreetMap. Station 61 is
+            placed from the Conduit observation feed. Supply connections still
+            need operator confirmation.
           </p>
         </div>
         <div className="atlas-view-controls" aria-label="Map view">
@@ -310,7 +344,7 @@ export function CampusMap({
             </output>
           )}
           <div className="map-disclosure">
-            <span>Verified open-map point</span>
+            <span>Open-map dam + Conduit station</span>
             <strong>Topology pending operator review</strong>
           </div>
         </div>
@@ -422,6 +456,9 @@ export function CampusMap({
             </span>
             <span>
               <i /> Campus reference: OpenStreetMap
+            </span>
+            <span>
+              <i className="verified" /> Weather station: Conduit station 61
             </span>
             <span>
               <i className="pending" /> Current pipes, treatment and demand

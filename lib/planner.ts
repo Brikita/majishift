@@ -76,10 +76,27 @@ export function validate(c: Config): string[] {
     errors.push('One or more inputs exceed the supported scenario range.');
   return errors;
 }
-const rain = [0, 0, 2, 8, 4, 0, 0];
-export function simulate(c: Config, proposed: boolean): Day[] {
+export const syntheticRain = [0, 0, 2, 8, 4, 0, 0] as const;
+
+function validateRainfall(rainfall: readonly number[]): void {
+  if (
+    rainfall.length !== 7 ||
+    rainfall.some(
+      (value) => !Number.isFinite(value) || value < 0 || value > 500,
+    )
+  ) {
+    throw new Error('Rainfall must contain seven values between 0 and 500 mm.');
+  }
+}
+
+export function simulate(
+  c: Config,
+  proposed: boolean,
+  rainfall: readonly number[] = syntheticRain,
+): Day[] {
   const errors = validate(c);
   if (errors.length) throw new Error(errors.join(' '));
+  validateRainfall(rainfall);
   let storage = c.initial;
   const rows: Day[] = [];
   const unavailable = (i: number) =>
@@ -88,7 +105,7 @@ export function simulate(c: Config, proposed: boolean): Day[] {
     i + 1 < c.outageStart + c.outageDays;
   for (let i = 0; i < 7; i++) {
     const start = storage,
-      rainMm = rain[i] * c.rainScale,
+      rainMm = rainfall[i] * c.rainScale,
       rainVolume = (rainMm * c.area) / 1000,
       evapRequest = (c.evaporation * c.area) / 1000;
     let ahead = 0;
@@ -150,9 +167,12 @@ export function simulate(c: Config, proposed: boolean): Day[] {
   }
   return rows;
 }
-export function compare(c: Config) {
-  const baseline = simulate(c, false),
-    plan = simulate(c, true);
+export function compare(
+  c: Config,
+  rainfall: readonly number[] = syntheticRain,
+) {
+  const baseline = simulate(c, false, rainfall),
+    plan = simulate(c, true, rainfall);
   const sum = (key: 'unmet' | 'deferred' | 'pumped' | 'overflow') =>
     plan.reduce((s, d) => s + d[key], 0);
   return {

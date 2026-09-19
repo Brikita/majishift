@@ -11,6 +11,8 @@
     "start": "wrangler dev --config dist/server/wrangler.json",
     "lint": "oxlint",
     "format": "oxfmt",
+    "evaluate:adaption": "node scripts/evaluate-adaption-actions.mjs",
+    "prepare:adaption": "node --experimental-strip-types scripts/prepare-adaption-actions.ts",
     "test": "node --experimental-strip-types --test tests/*.test.ts"
   },
   "dependencies": {

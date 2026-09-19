@@ -29,7 +29,7 @@ Do not colour a hostel as “out of water” from a single aggregate reservoir b
 | Intake / pumps / treatment / tanks | Authorized coordinates and sketch | assetId, type, compartment linkage, evidence status | Schematic node with no asserted coordinates |
 | Connections | Operator-confirmed topology; actual route if available | fromAssetId/toAssetId, link kind, routeAccuracy | Dashed schematic connection; not a buried pipe alignment |
 | Demand / irrigation areas | Shareable plots/service zones | demandId, area basis, allocation-model status | Labelled connection without household/building service prediction |
-| Conduit station | Data-owner coordinates | stationId, channel/time/quality metadata | Unknown location label, no pin at guessed site |
+| Conduit station | Latest station 61 feed coordinates (37.014528°E, 1.099736°S, 1,523 m) | stationId, timestamp and selected channel metadata | Live feed pin; data-owner confirmation and full quality metadata still required |
 | Buildings | Licensed footprint/height dataset | Source and height origin | Flat footprints, or explicitly illustrative extrusion |
 | Terrain | Licensed DEM with resolution/datum | Provider, date, resolution, datum | Flat map; never use visual terrain as bathymetry |
 

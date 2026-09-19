@@ -1,5 +1,5 @@
 'use client';
-import { useEffect, useMemo, useState } from 'react';
+import { useCallback, useEffect, useMemo, useState } from 'react';
 import Link from 'next/link';
 import {
   Droplets,
@@ -20,15 +20,57 @@ import {
   TableHead,
   TableCell,
 } from '@/components/ui/table';
-import { defaults, compare, validate, type Config } from '@/lib/planner';
+import {
+  defaults,
+  compare,
+  syntheticRain,
+  validate,
+  type Config,
+} from '@/lib/planner';
+import type { ConduitReading } from '@/lib/conduit';
 import { CampusMap } from '@/components/map/CampusMap';
+import { ConduitObservation } from '@/components/intelligence/ConduitObservation';
 const number = (n: number) => Math.round(n).toLocaleString('en-KE');
 export default function Home() {
   const [config, setConfig] = useState<Config>({ ...defaults }),
     [draft, setDraft] = useState<Config>({ ...defaults }),
     [errors, setErrors] = useState<string[]>([]);
-  const result = useMemo(() => compare(config), [config]);
+  const [rainfall, setRainfall] = useState<number[]>([...syntheticRain]);
+  const [conduit, setConduit] = useState<ConduitReading | null>(null);
+  const [conduitError, setConduitError] = useState<string | null>(null);
+  const conduitState = conduit ? 'live' : conduitError ? 'fallback' : 'loading';
+  const result = useMemo(() => compare(config, rainfall), [config, rainfall]);
   const [previous, setPrevious] = useState<Config | null>(null);
+
+  const syncConduit = useCallback(async () => {
+    await Promise.resolve();
+    setConduitError(null);
+    try {
+      const response = await fetch('/api/conduit', { cache: 'no-store' });
+      const payload = (await response.json()) as
+        | ConduitReading
+        | { error?: string };
+      if (!response.ok || !('source' in payload)) {
+        throw new Error(
+          'error' in payload && payload.error
+            ? payload.error
+            : 'Conduit observation is unavailable.',
+        );
+      }
+      setConduit(payload);
+      setRainfall([payload.rain.planningMm, ...syntheticRain.slice(1)]);
+    } catch (error) {
+      setConduitError(
+        error instanceof Error ? error.message : 'Conduit sync failed.',
+      );
+    }
+  }, []);
+
+  useEffect(() => {
+    const timer = window.setTimeout(() => void syncConduit(), 0);
+    return () => window.clearTimeout(timer);
+  }, [syncConduit]);
+
   useEffect(() => {
     type Context = {
       registerTool: (
@@ -52,7 +94,7 @@ export default function Home() {
           {
             name: 'read_reservoir_plan',
             description:
-              'Read the currently applied synthetic scenario and calculated schedules. Does not apply edits or operate equipment.',
+              'Read the current Conduit-linked rainfall observation, explicit scenario inputs and calculated schedules. Does not apply edits or operate equipment.',
             inputSchema: {
               type: 'object',
               properties: {},
@@ -67,7 +109,13 @@ export default function Home() {
                 Object.keys(input).length
               )
                 throw new Error('Expected an empty object');
-              return { mode: 'synthetic scenario', config, ...result };
+              return {
+                mode: conduit ? 'Conduit observation + scenario' : 'scenario',
+                weatherSource: conduit,
+                rainfall,
+                config,
+                ...result,
+              };
             },
           },
           { signal: lifecycle.signal },
@@ -77,7 +125,7 @@ export default function Home() {
       /* Optional browser capability; planner remains available. */
     }
     return () => lifecycle.abort();
-  }, [config, result]);
+  }, [config, conduit, rainfall, result]);
   const max = Math.max(
     config.initial,
     ...result.baseline.map((d) => d.end),
@@ -112,13 +160,19 @@ export default function Home() {
   function exportPlan() {
     const data = {
       product: 'MajiShift',
-      mode: 'synthetic scenario — not campus operations',
+      mode: conduit
+        ? 'Conduit observation + synthetic planning scenario'
+        : 'synthetic scenario — not campus operations',
       createdAt: new Date().toISOString(),
+      weatherSource: conduit,
+      rainfall,
       assumptions: {
         status: 'unverified scenario inputs',
         topology:
           'Historical-context schematic: Ndarugu source/intake → JKUAT Dam → treatment/essential use, with an irrigation branch.',
-        weather: 'Synthetic seven-day rainfall and constant evaporation.',
+        weather: conduit
+          ? 'Day 1 rain uses the latest Conduit station cumulative-gauge mean; days 2–7 and evaporation remain scenario inputs.'
+          : 'Synthetic seven-day rainfall and constant evaporation.',
         operations:
           'Capacity, starting storage, reserve, demands, pump delivery, availability and outage are editable invented defaults.',
         requiredReview:
@@ -192,11 +246,18 @@ export default function Home() {
         <div className="notice">
           <FlaskConical size={18} />
           <p>
-            <strong>Scenario lab.</strong> All readings, weather and operating
-            values below are invented for testing. Conduit data and the current
-            dam profile are not connected.
+            <strong>Mixed-evidence scenario.</strong>{' '}
+            {conduit
+              ? 'Day 1 rainfall comes from the latest Conduit JKUAT station observation. Days 2–7, dam storage and operating values remain editable assumptions.'
+              : 'The Conduit feed is unavailable, so rainfall and all operating values are scenario assumptions.'}
           </p>
         </div>
+        <ConduitObservation
+          reading={conduit}
+          state={conduitState}
+          error={conduitError}
+          onRefresh={syncConduit}
+        />
         <div className="layout">
           <section className="main-panel">
             <div className="presets">
@@ -248,6 +309,11 @@ export default function Home() {
               capacity={config.capacity}
               plan={result.plan}
               reserve={config.reserve}
+              stationCoordinates={
+                conduit
+                  ? [conduit.coordinates[0], conduit.coordinates[1]]
+                  : null
+              }
             />
             <section className="chart-card">
               <div className="section-head">
@@ -384,9 +450,9 @@ export default function Home() {
                 </p>
                 <p>
                   Lowest proposed end-of-day storage:{' '}
-                  {number(compare(previous).minimum)} → {number(result.minimum)}{' '}
-                  m³. This comparison changes all edited inputs together; it
-                  does not isolate individual causes.
+                  {number(compare(previous, rainfall).minimum)} →{' '}
+                  {number(result.minimum)} m³. This comparison changes all
+                  edited inputs together; it does not isolate individual causes.
                 </p>
               </section>
             )}
@@ -518,8 +584,9 @@ export default function Home() {
           <div>
             <h3>What is connected?</h3>
             <p>
-              No live sources yet. Rain is synthetic; evaporation is an explicit
-              assumption. No upstream river-flow prediction is made.
+              The latest public Conduit JKUAT station observation supplies Day 1
+              rainfall and the environmental context card. Days 2–7 are explicit
+              scenarios; no upstream river-flow prediction is made.
             </p>
             <a
               href="https://conduit.jhubafrica.com/"
@@ -536,8 +603,9 @@ export default function Home() {
               available records and the operator’s most frequent decision.
             </p>
             <p>
-              Adaption model: not trained. Briefings currently use deterministic
-              explanations.
+              Adaption action-model dataset and evaluation contract are
+              prepared. A hosted checkpoint still requires the hackathon account
+              API key.
             </p>
           </div>
         </section>

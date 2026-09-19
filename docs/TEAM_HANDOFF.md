@@ -16,20 +16,21 @@ The differentiator we intend to demonstrate is a connected decision: verified si
 |---|---|---|
 | Planner | Pure TypeScript daily seven-day balance; reserve-first heuristic; fixed-schedule comparator | Verified topology, real inputs, time series, uncertainty, operator's actual baseline, longer planning horizon if needed |
 | Interface | Editable assumptions; presets; storage chart; daily table; what-changed summary; JSON export | Data import/review, provenance, input readiness, GIS, richer comparison, operator approval workflow |
-| Weather | Seven invented rainfall values and assumed constant evaporation | Authorized Conduit ingestion, quality checks, relevant weather method and contribution evaluation |
-| AI | 10 synthetic training seeds, 5 held-out pipeline cases; preparation, SDK runner and evaluator | Reviewed dataset, base/prompted/adapted experiment, secure serving and review UI |
+| Weather | Latest public Conduit station 61 observation is fetched server-side; the two cumulative gauge totals are averaged for Day 1 direct-rain accounting; timestamp, coordinates, temperature, humidity and wind are shown with provenance | Confirm field semantics and station representativeness with the data owner; obtain history; keep Days 2–7 separate from observations unless a forecast source is added |
+| AI | Original constraint-extraction fixtures plus a generated action-model package with 160 training rows and 20 held-out cases; UI shows the intended Conduit → balance → Adaption → operator flow | Human-review generated rows; activate account; estimate/adapt/train; evaluate base/prompted/adapted results; securely serve the selected checkpoint |
 | Mapping | Responsive MapLibre campus atlas; open-map dam/campus points; 2D/3D context; scenario day and plan comparison linked to planner | Operator-verified asset identity, pipe/treatment topology, demand areas and any shareable surveyed geometry |
 | Persistence | None; scenario export only | Import/reload receipt first; database only if shared saved records are actually needed |
-| Validation | Five planner tests including 200 stress scenarios; type/lint/build pass; evaluator fixture checks | Field calibration, held-out replay, browser flows, real-data acceptance and user feedback |
+| Validation | Seven planner tests including 200 stress scenarios, Conduit rainfall injection and invalid rainfall; type/lint/build checks; evaluator fixture checks | Field calibration, held-out replay, browser flows, data-owner acceptance and user feedback |
 | Hosting | Owner-private Sites deployment | Explicitly authorized access for teammate/judges; deployment of changed application by responsible owner |
 
 Current live preview: https://majishift-reservoir.briankinyua0101.chatgpt.site . Private access does not imply that teammates or judges can open it.
 
 ## Existing code and important limitations
 
-- `lib/planner.ts`: Config, defaults, validate, simulate, compare. All defaults are invented. `rain` is hardcoded. `simulate` validates inputs, prioritizes essential use over irrigation and conserves aggregate water.
-- `app/page.tsx`: client UI, state, calculations, JSON download and optional read-only WebMCP registration. No ingestion or trained-model call exists.
-- `tests/planner.test.ts`: numerical invariants and stress cases. `scripts/prepare-adaption.mjs`, `scripts/evaluate-adaption.mjs`, `scripts/adaption_job.py`: experiment scaffolding.
+- `lib/planner.ts`: Config, defaults, validate, simulate, compare. All operating defaults are invented. A validated seven-value rainfall array can be supplied; the UI replaces Day 1 with the latest Conduit gauge mean when available. `simulate` prioritizes essential use and conserves aggregate water.
+- `app/api/conduit/route.ts`: server-side normalization of the public Conduit station 61 observation. It discovers the station endpoint from the official Conduit model page when `CONDUIT_DATA_URL` is not configured, so the upstream credential is not shipped to the browser.
+- `app/page.tsx`: client UI, Conduit synchronization, calculations, JSON download and optional read-only WebMCP registration. No trained-model inference call exists.
+- `tests/planner.test.ts`: numerical invariants and stress cases. `scripts/prepare-adaption-actions.ts` generates the action-model package. The older constraint-extraction scripts remain as a separate experiment.
 - Current outage lookahead only pre-fills immediately before consecutive outage days. If several days of pumping are needed, it may miss a feasible plan. Add full-horizon planning before claiming scheduling adequacy.
 - Daily totals can hide an empty tank before an afternoon refill or overflow before withdrawals. Use hourly steps when needed; daily feasibility is only daily aggregate feasibility.
 - One storage compartment cannot represent raw pond -> treatment -> treated tank constraints. Do not label raw water as directly available for essential consumption.
