@@ -37,11 +37,18 @@ Both experiments use `nvidia/Nemotron-3-Nano-Omni-30B-A3B-Reasoning-BF16`, LoRA,
 | Experiment | Run ID | Completion labels | Status | Best win rate |
 |---|---|---|---|---|
 | Strict JSON contract | `a28a2263-4033-4e27-bab3-c97d56eb5d93` | `original_completion` | Succeeded after 3/3 iterations | 0.5371 against a 0.80 target |
-| Adaption enhanced labels | `62a90de1-0309-4a16-9b17-0018c58235cd` | internal `fused_generation` column | Running, 2/3 iterations complete at last check | 0.5567 so far against a 0.80 target |
+| Adaption enhanced labels | `62a90de1-0309-4a16-9b17-0018c58235cd` | internal `fused_generation` column | Succeeded after 3/3 iterations | 0.5567 against a 0.80 target |
+| Fused context, compact labels | `762945d7-87d9-4e5f-884f-3317d63a88be` | raw `prompt` → `completion` | Running | Pending |
 
-The strict run succeeded because it completed its iteration budget; it did not reach the target win rate. Its best checkpoint was downloaded to the ignored `work/adaption-actions/` directory and its Zstandard tar stream was verified successfully. The archive contains the expected LoRA adapter, including a 2,830,128,272-byte `adapter_model.safetensors` file. This verifies transfer integrity, not inference quality. The enhanced-label experiment tests whether Adaption's richer grounded completions improve the same model and augmentation recipe, but its Markdown-fenced outputs will require a tolerant parser or output cleanup if selected.
+The two 30B runs succeeded because they completed their iteration budgets; neither reached the target win rate. The enhanced-label experiment finished 1.96 percentage points above the strict-label run (0.5567 versus 0.5371), so it is the leading 30B checkpoint from AutoScientist's evaluation, but that difference does not replace evaluation on the 20 untouched project cases. The strict checkpoint was downloaded to the ignored `work/adaption-actions/` directory and its Zstandard tar stream was verified successfully. The archive contains the expected LoRA adapter, including a 2,830,128,272-byte `adapter_model.safetensors` file. This verifies transfer integrity, not inference quality. The enhanced-label download was interrupted after 1.41 GB of an expected 2.61 GB and must be restarted and archive-verified before use. Its Markdown-fenced outputs will require a tolerant parser or output cleanup if selected.
 
-Credit record: 2 credits for Adaptive Data plus 280 credits for each AutoScientist augmentation, for 562 credits committed from the original 650-credit balance. Approximately 88 credits remain for recovery or a focused follow-up.
+### Score diagnosis and corrected run
+
+The completed adapted export contains 28,097 rows. Only 160 are project source rows, so the source task is about 0.57% of the effective dataset. The run mapping selected a prompt column while the reservoir scenario remained in a separate context column; this did not guarantee that the model saw the numbers it had to preserve. The export also contains extreme response-length outliers, while enhanced completions average roughly 3,486 characters compared with roughly 433 characters for the intended concise JSON labels. These are stronger explanations for the stalled score than a shortage of raw weather readings.
+
+`train-fused.csv` fixes the input contract by placing the instruction and full scenario JSON in one prompt and keeping the compact five-field JSON response. It was uploaded as raw dataset `ce570660-fd6f-4829-bbb8-5f89a89f3050`. The corrected experiment uses Gemma 3 4B, the 160 reviewed source rows, the minimum 840 domain-augmentation rows required to reach Adaption's 1,000-row training floor, no general augmentation and the `AdaptYourWorld` voucher. This preserves a 16% source share instead of 0.57% and costs about 8.4 augmentation credits.
+
+Credit record: 2 credits for Adaptive Data, 280 credits for each 30B augmentation and about 8.4 credits for the corrected 4B augmentation, for approximately 570.4 credits committed from the original 650-credit balance. Approximately 79.6 credits remain for recovery or a focused follow-up.
 
 ## What is implemented
 
@@ -55,7 +62,9 @@ Credit record: 2 credits for Adaptive Data plus 280 credits for each AutoScienti
 Run `npm run prepare:adaption` after planner changes. Generated files are placed in `work/adaption-actions/`:
 
 - `train.csv`: `instruction`, `context`, and `response` columns for Adaption.
+- `train-fused.csv`: one complete `prompt` plus `completion`, used by the corrected run.
 - `test.jsonl`: untouched held-out cases.
+- `synthetic-operator-records.csv`: 1,260 explicitly synthetic relative-day records for the demo workflow.
 - `manifest.json`: row counts, provenance and limitations.
 
 Generated completions are deterministic candidate labels. A team member must review them before upload; generation by the same planner proves pipeline consistency, not language quality or real-world validity.

@@ -528,8 +528,9 @@ export default function Home() {
               </Button>
             </div>
             <p className="input-note">
-              Editable assumptions, awaiting the operator’s records. 1 m³ =
-              1,000 litres.
+              Submission demo: every dam and operator value below is a synthetic
+              scenario record, awaiting approved operator data. 1 m³ = 1,000
+              litres.
             </p>
             <form
               onSubmit={(e) => {
@@ -599,16 +600,18 @@ export default function Home() {
           <div>
             <h3>Next: the operator meeting</h3>
             <p>
-              Confirm the storage profile, pump delivery, essential demand,
-              available records and the operator’s most frequent decision.
+              If the team advances to the October event, replace the synthetic
+              operator layer with approved storage, pumping, demand and outage
+              records before making operational claims.
             </p>
             <p>
               Adaption processed 160 rows and produced a 30B checkpoint after
               three AutoScientist iterations. Its 53.71% win rate remains below
-              the 80% target. A second label experiment is running; its best
-              score so far is 55.67%. The
-              checkpoint still needs held-out validation and a separate serving
-              endpoint before it can generate briefs here.
+              the 80% target. The enhanced-label experiment also completed three
+              iterations and scored 55.67%. A corrected 4B experiment now fuses
+              every scenario into its prompt and uses much less augmentation.
+              Every checkpoint still needs held-out validation and a separate
+              serving endpoint before it can generate briefs here.
             </p>
           </div>
         </section>

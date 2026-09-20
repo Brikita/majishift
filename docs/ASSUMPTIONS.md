@@ -6,6 +6,8 @@ The team could not validate current operating records with the reservoir operato
 
 Every operating value remains editable in the application. Replace this register with an approved site configuration before any pilot or operational use.
 
+For the online qualification round, generated operator-day records are retained only as explicitly labelled synthetic demonstration data. If the team advances to the October event, collect and replay approved operator records before changing any operational or impact claim.
+
 ## Default scenario inputs
 
 | Input | Prototype default | Status | What must replace it |

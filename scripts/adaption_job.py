@@ -39,9 +39,14 @@ def main():
     elif args.upload:
         import httpx
         data = args.upload.read_bytes()
+        upload_prompt = args.prompt_column or 'instruction'
+        upload_completion = args.completion_column or 'response'
         dataset = client.datasets.create(source={
             'name': args.upload.name, 'file_format': 'csv', 'processing_mode': 'raw',
-            'column_mapping': {'prompt': 'instruction', 'completion': 'response'},
+            'column_mapping': {
+                'prompt': upload_prompt,
+                'completion': upload_completion,
+            },
         })
         print('Dataset ID (retain for recovery):', dataset.dataset_id, flush=True)
         response = httpx.put(dataset.upload_instructions.url, content=data, timeout=60)

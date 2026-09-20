@@ -23,9 +23,10 @@ React + TypeScript, Vinext/Vite, Tailwind and Shadcn components. A pure TypeScri
 - [Project specification](docs/PROJECT.md)
 - [Operator interview](docs/OPERATOR_INTERVIEW.md)
 - [Adaption experiment](docs/ADAPTION.md)
+- [Synthetic operator-record contract](docs/SYNTHETIC_OPERATOR_RECORDS.md)
 - [Evidence and assumptions](docs/EVIDENCE.md)
 
-`npm run prepare:adaption` creates 160 training rows and 20 held-out cases for an Adaption action model that turns Conduit context plus deterministic water-balance results into a concise operator brief. No checkpoint has been trained or served yet. Training needs an activated account, API key, human review and a credit estimate. Never put an API key in the browser or commit a secret.
+`npm run prepare:adaption` creates 160 training rows, 20 held-out cases, a fused prompt/completion file and 1,260 explicitly synthetic operator-day records. Two 30B AutoScientist experiments completed; their best win rates were 0.5371 and 0.5567 against a 0.80 target. Neither checkpoint is served or validated on the held-out cases. Never put an API key in the browser or commit a secret.
 
 ## Verification
 
