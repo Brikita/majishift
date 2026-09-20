@@ -23,11 +23,14 @@ import {
 import {
   defaults,
   compare,
-  syntheticRain,
   validate,
   type Config,
 } from '@/lib/planner';
 import type { ConduitReading } from '@/lib/conduit';
+import {
+  conduitReplay,
+  conduitReplayProvenance,
+} from '@/lib/conduit-history';
 import { CampusMap } from '@/components/map/CampusMap';
 import { ConduitObservation } from '@/components/intelligence/ConduitObservation';
 const number = (n: number) => Math.round(n).toLocaleString('en-KE');
@@ -35,11 +38,29 @@ export default function Home() {
   const [config, setConfig] = useState<Config>({ ...defaults }),
     [draft, setDraft] = useState<Config>({ ...defaults }),
     [errors, setErrors] = useState<string[]>([]);
-  const [rainfall] = useState<number[]>([...syntheticRain]);
+  const [rainfall] = useState<number[]>(
+    conduitReplay.map((day) => day.rainMm),
+  );
+  const conduitEvaporation = useMemo(
+    () => conduitReplay.map((day) => day.referenceEtMm),
+    [],
+  );
   const [conduit, setConduit] = useState<ConduitReading | null>(null);
   const [conduitError, setConduitError] = useState<string | null>(null);
   const conduitState = conduit ? 'live' : conduitError ? 'fallback' : 'loading';
-  const result = useMemo(() => compare(config, rainfall), [config, rainfall]);
+  const result = useMemo(
+    () => compare(config, rainfall, conduitEvaporation),
+    [config, conduitEvaporation, rainfall],
+  );
+  const withoutConduit = useMemo(
+    () => compare(config, rainfall),
+    [config, rainfall],
+  );
+  const conduitExtraLoss = result.plan.reduce(
+    (total, day, index) =>
+      total + day.evaporation - withoutConduit.plan[index].evaporation,
+    0,
+  );
   const [previous, setPrevious] = useState<Config | null>(null);
 
   const syncConduit = useCallback(async () => {
@@ -93,7 +114,7 @@ export default function Home() {
           {
             name: 'read_reservoir_plan',
             description:
-              'Read the current Conduit-linked rainfall observation, explicit scenario inputs and calculated schedules. Does not apply edits or operate equipment.',
+              'Read the official Conduit historical replay, optional live station context, explicit operating assumptions and calculated schedules. Does not apply edits or operate equipment.',
             inputSchema: {
               type: 'object',
               properties: {},
@@ -109,9 +130,11 @@ export default function Home() {
               )
                 throw new Error('Expected an empty object');
               return {
-                mode: conduit ? 'Conduit context + scenario rainfall' : 'scenario',
+                mode: 'Conduit historical replay + synthetic operations',
                 weatherSource: conduit,
                 rainfall,
+                dailyReferenceEtMm: conduitEvaporation,
+                conduitReplayProvenance,
                 config,
                 ...result,
               };
@@ -124,7 +147,7 @@ export default function Home() {
       /* Optional browser capability; planner remains available. */
     }
     return () => lifecycle.abort();
-  }, [config, conduit, rainfall, result]);
+  }, [config, conduit, conduitEvaporation, rainfall, result]);
   const max = Math.max(
     config.initial,
     ...result.baseline.map((d) => d.end),
@@ -165,13 +188,18 @@ export default function Home() {
       createdAt: new Date().toISOString(),
       weatherSource: conduit,
       rainfall,
+      dailyReferenceEtMm: conduitEvaporation,
+      conduitReplay: {
+        days: conduitReplay,
+        provenance: conduitReplayProvenance,
+        comparisonWithoutConduit: withoutConduit,
+      },
       assumptions: {
         status: 'unverified scenario inputs',
         topology:
           'Historical-context schematic: Ndarugu source/intake → JKUAT Dam → treatment/essential use, with an irrigation branch.',
-        weather: conduit
-          ? 'Conduit environmental measurements are attached as context. All seven rainfall days and evaporation remain scenario inputs because a cumulative gauge snapshot is not a daily rainfall increment.'
-          : 'Synthetic seven-day rainfall and constant evaporation.',
+        weather:
+          'The decision calculation uses the official historical Conduit CSV replay for daily rain and temperature-derived reference evapotranspiration. The live observation is attached as additional context when available.',
         operations:
           'Capacity, starting storage, reserve, demands, pump delivery, availability and outage are editable invented defaults.',
         requiredReview:
@@ -246,9 +274,10 @@ export default function Home() {
           <FlaskConical size={18} />
           <p>
             <strong>Mixed-evidence scenario.</strong>{' '}
-            {conduit
-              ? 'Conduit supplies the latest environmental context. Rainfall, dam storage and operating values remain editable assumptions until gauge semantics and field records are confirmed.'
-              : 'The Conduit feed is unavailable, so rainfall and all operating values are scenario assumptions.'}
+            Official Conduit CSV observations from 29 Aug-4 Sep drive daily
+            rainfall and temperature-derived reference evapotranspiration in
+            this replay. Dam storage and operating values remain editable
+            assumptions.
           </p>
         </div>
         <ConduitObservation
@@ -303,6 +332,32 @@ export default function Home() {
                 </span>
               </div>
             </div>
+            <section className="change-card" aria-live="polite">
+              <p className="eyebrow">CONDUIT TO DECISION IMPACT</p>
+              <h2>
+                Weather data adds {number(conduitExtraLoss)} m³ of estimated
+                seven-day surface loss
+              </h2>
+              <p>
+                The official station history recorded 0.0 mm rain across this
+                replay. Conduit temperature ranges produce{' '}
+                {conduitEvaporation
+                  .reduce((sum, value) => sum + value, 0)
+                  .toFixed(1)}{' '}
+                mm of FAO-56 Hargreaves reference evapotranspiration, compared
+                with {number(config.evaporation * 7)} mm from the fixed
+                assumption. The proposed schedule pumps{' '}
+                {number(result.pumped - withoutConduit.pumped)} m³ more and its
+                minimum storage changes by{' '}
+                {number(result.minimum - withoutConduit.minimum)} m³.
+              </p>
+              <p>
+                This is a historical counterfactual replay using real Conduit
+                weather and synthetic reservoir operations. It demonstrates the
+                decision contribution without claiming a forecast or measured
+                dam evaporation.
+              </p>
+            </section>
             <CampusMap
               baseline={result.baseline}
               capacity={config.capacity}
@@ -449,7 +504,9 @@ export default function Home() {
                 </p>
                 <p>
                   Lowest proposed end-of-day storage:{' '}
-                  {number(compare(previous, rainfall).minimum)} →{' '}
+                  {number(
+                    compare(previous, rainfall, conduitEvaporation).minimum,
+                  )} →{' '}
                   {number(result.minimum)} m³. This comparison changes all
                   edited inputs together; it does not isolate individual causes.
                 </p>
@@ -467,7 +524,9 @@ export default function Home() {
                   <TableRow>
                     {[
                       'Day',
+                      'Date',
                       'Rain (mm)',
+                      'Ref ET (mm)',
                       'Pump (h)',
                       'Irrigation (m³)',
                       'End storage (m³)',
@@ -481,7 +540,9 @@ export default function Home() {
                   {result.plan.map((d) => (
                     <TableRow key={d.day}>
                       <TableCell>Day {d.day}</TableCell>
+                      <TableCell>{conduitReplay[d.day - 1].date}</TableCell>
                       <TableCell>{d.rainMm.toFixed(1)}</TableCell>
+                      <TableCell>{d.evaporationMm.toFixed(1)}</TableCell>
                       <TableCell>
                         {d.hours.toFixed(1)}
                         {d.outage ? ' · unavailable' : ''}
@@ -584,11 +645,12 @@ export default function Home() {
           <div>
             <h3>What is connected?</h3>
             <p>
-              The latest public Conduit JKUAT station observation supplies the
-              environmental context card. Its cumulative gauge totals are shown
-              as raw observations, but are not treated as a daily rainfall
-              increment. All seven planning days remain explicit scenarios; no
-              upstream river-flow prediction is made.
+              The official Conduit CSV supplies measured daily rain totals and
+              temperature ranges for a seven-day historical replay. Temperature
+              drives a transparent FAO-56 Hargreaves reference
+              evapotranspiration estimate, which changes water loss, storage and
+              pumping outputs. The live endpoint adds current context when
+              available; no upstream river-flow prediction is made.
             </p>
             <a
               href="https://conduit.jhubafrica.com/"

@@ -74,3 +74,25 @@ void test('rainfall input requires seven credible daily values', () => {
   assert.throws(() => simulate(defaults, true, [1, 2]));
   assert.throws(() => simulate(defaults, true, [0, 0, 0, -1, 0, 0, 0]));
 });
+
+void test('daily Conduit evaporation changes the water balance', () => {
+  const rain = [0, 0, 0, 0, 0, 0, 0];
+  const dailyEt = [11.6, 10.67, 8.48, 11.32, 12.75, 12.14, 12.61];
+  const withConduit = compare(defaults, rain, dailyEt);
+  const fixedAssumption = compare(defaults, rain);
+  assert.ok(
+    withConduit.plan.reduce((sum, day) => sum + day.evaporation, 0) >
+      fixedAssumption.plan.reduce((sum, day) => sum + day.evaporation, 0),
+  );
+  assert.deepEqual(
+    withConduit.plan.map((day) => day.evaporationMm),
+    dailyEt,
+  );
+});
+
+void test('daily evaporation requires seven credible values', () => {
+  assert.throws(() => simulate(defaults, true, undefined, [1, 2]));
+  assert.throws(() =>
+    simulate(defaults, true, undefined, [0, 0, 0, -1, 0, 0, 0]),
+  );
+});

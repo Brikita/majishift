@@ -4,7 +4,11 @@ Help reservoir operators compare pumping plans and maintain essential water rese
 
 ## Current slice
 
-A working seven-day scenario calculator with a reserve-first planning heuristic, fixed-schedule comparison, editable assumptions, shortfall accounting, an accessible daily table, JSON export, and a responsive JKUAT campus atlas. A server-side adapter reads the latest public Conduit@Empathy station 61 observation and places the station on the map. The feed's cumulative rain-gauge totals are shown as raw context only; they are not treated as a daily rainfall increment without a previous reading and confirmed reset semantics. All seven rainfall days, reservoir state and every operating input remain assumptions. Pipe routes, treatment links, demand areas and the dam profile remain unverified. This is not a live campus control system, validated digital twin, forecast product or optimization proof.
+A working seven-day historical replay and scenario calculator with a reserve-first planning heuristic, fixed-schedule comparison, editable operating assumptions, shortfall accounting, an accessible daily table, JSON export, and a responsive JKUAT campus atlas. The default replay uses the official Hack The Weather Conduit CSV for station 61: measured daily rain totals enter the water balance, while measured daily temperature ranges produce FAO-56 Hargreaves reference evapotranspiration. The dashboard quantifies the resulting change in surface loss, pumping and minimum storage against the fixed 4 mm/day assumption. A server-side adapter separately attempts the latest public observation and places the station on the map when available. Reservoir state, capacity, demand, pumps, outages and surface area remain synthetic. Pipe routes, treatment links, demand areas and the dam profile remain unverified. This is not a live campus control system, validated digital twin, forecast product or optimization proof.
+
+## Meaningful Conduit use
+
+The default 29 August-4 September 2026 replay converts more than 9,800 station observations into seven daily decision inputs. The supplied period recorded 0.0 mm rain. Conduit temperature minima, maxima and means produce 79.6 mm of reference evapotranspiration, compared with 28.0 mm under the editable fixed assumption. At the default 8,000 m2 scenario surface area, the Conduit-driven calculation adds about 413 m3 of estimated loss and changes the recommended seven-day pumping volume from 7,875 m3 to 8,250 m3. This is a controlled counterfactual demonstration: real weather drives the calculation while reservoir operations remain labelled synthetic.
 
 ## Run
 
@@ -25,9 +29,10 @@ React + TypeScript, Vinext/Vite, Tailwind and Shadcn components. A pure TypeScri
 - [Adaption experiment](docs/ADAPTION.md)
 - [Synthetic operator-record contract](docs/SYNTHETIC_OPERATOR_RECORDS.md)
 - [Evidence and assumptions](docs/EVIDENCE.md)
+- [Official Conduit source files and reproducibility](data/README.md)
 
 `npm run prepare:adaption` creates 160 training rows, 20 held-out cases, a fused prompt/completion file and 1,260 explicitly synthetic operator-day records. Three AutoScientist experiments completed: strict 30B at 0.5371, enhanced-label 30B at 0.5567 and fused-context Gemma 4B at 0.5345, all against a 0.80 target. No checkpoint is served or validated on the held-out cases. Never put an API key in the browser or commit a secret.
 
 ## Verification
 
-The planner suite covers 200 stress scenarios, rainfall injection, invalid rainfall, outages, infeasibility and mass balance. TypeScript, lint and the production build are required before publication. The Adaption action dataset is generated from the same planner but remains synthetic training material, not a model benchmark. Campus-atlas interactions were checked at phone, tablet and normal in-app browser widths; the mobile page has no horizontal overflow, map controls remain touch-sized, and the timeline scrolls within its component. There is still no field validation, real-device test or assistive-technology user test.
+The planner suite covers 200 stress scenarios, rainfall injection, daily Conduit evaporation, invalid weather arrays, outages, infeasibility and mass balance. TypeScript, lint and the production build are required before publication. The Adaption action dataset is generated from the same planner but remains synthetic training material, not a model benchmark. Campus-atlas interactions were checked at phone, tablet and normal in-app browser widths; the mobile page has no horizontal overflow, map controls remain touch-sized, and the timeline scrolls within its component. There is still no field validation, real-device test or assistive-technology user test.

@@ -35,6 +35,7 @@ export type Day = {
   rainMm: number;
   rain: number;
   evaporation: number;
+  evaporationMm: number;
   hours: number;
   pumped: number;
   essential: number;
@@ -89,14 +90,29 @@ function validateRainfall(rainfall: readonly number[]): void {
   }
 }
 
+function validateEvaporation(evaporation: readonly number[]): void {
+  if (
+    evaporation.length !== 7 ||
+    evaporation.some(
+      (value) => !Number.isFinite(value) || value < 0 || value > 100,
+    )
+  ) {
+    throw new Error(
+      'Evaporation must contain seven values between 0 and 100 mm.',
+    );
+  }
+}
+
 export function simulate(
   c: Config,
   proposed: boolean,
   rainfall: readonly number[] = syntheticRain,
+  dailyEvaporation: readonly number[] = Array(7).fill(c.evaporation),
 ): Day[] {
   const errors = validate(c);
   if (errors.length) throw new Error(errors.join(' '));
   validateRainfall(rainfall);
+  validateEvaporation(dailyEvaporation);
   let storage = c.initial;
   const rows: Day[] = [];
   const unavailable = (i: number) =>
@@ -107,7 +123,8 @@ export function simulate(
     const start = storage,
       rainMm = rainfall[i] * c.rainScale,
       rainVolume = (rainMm * c.area) / 1000,
-      evapRequest = (c.evaporation * c.area) / 1000;
+      evaporationMm = dailyEvaporation[i],
+      evapRequest = (evaporationMm * c.area) / 1000;
     let ahead = 0;
     for (let j = i + 1; j < 7 && unavailable(j); j++) ahead++;
     // Reserve-first heuristic; future rainfall is not counted on for the outage buffer.
@@ -148,6 +165,7 @@ export function simulate(
       rainMm,
       rain: rainVolume,
       evaporation,
+      evaporationMm,
       hours,
       pumped,
       essential,
@@ -170,9 +188,10 @@ export function simulate(
 export function compare(
   c: Config,
   rainfall: readonly number[] = syntheticRain,
+  dailyEvaporation?: readonly number[],
 ) {
-  const baseline = simulate(c, false, rainfall),
-    plan = simulate(c, true, rainfall);
+  const baseline = simulate(c, false, rainfall, dailyEvaporation),
+    plan = simulate(c, true, rainfall, dailyEvaporation);
   const sum = (key: 'unmet' | 'deferred' | 'pumped' | 'overflow') =>
     plan.reduce((s, d) => s + d[key], 0);
   return {
