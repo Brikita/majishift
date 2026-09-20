@@ -603,9 +603,12 @@ export default function Home() {
               available records and the operator’s most frequent decision.
             </p>
             <p>
-              Adaption action-model dataset and evaluation contract are
-              prepared. A hosted checkpoint still requires the hackathon account
-              API key.
+              Adaption processed 160 rows and produced a 30B checkpoint after
+              three AutoScientist iterations. Its 53.71% win rate remains below
+              the 80% target. A second label experiment is running and reached
+              55.67% after its first of three iterations. The
+              checkpoint still needs held-out validation and a separate serving
+              endpoint before it can generate briefs here.
             </p>
           </div>
         </section>

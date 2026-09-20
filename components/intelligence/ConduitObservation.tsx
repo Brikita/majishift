@@ -128,8 +128,11 @@ export function ConduitObservation({
             <span>Operator review</span>
           </div>
           <p className="model-status">
-            <strong>Integration state:</strong> training and evaluation pipeline
-            prepared; hosted checkpoint credentials are still required.
+            <strong>Integration state:</strong> Adaptive Data completed 160 rows.
+            The first 30B AutoScientist run trained for three iterations and
+            scored 53.71% against an 80% target. A second label experiment is
+            running and reached 55.67% after its first of three iterations. Model
+            serving and held-out validation are not connected yet.
           </p>
         </div>
       </article>

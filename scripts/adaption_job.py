@@ -8,17 +8,34 @@ def main():
     parser = argparse.ArgumentParser()
     action = parser.add_mutually_exclusive_group(required=True)
     action.add_argument('--list-models', action='store_true')
+    action.add_argument('--dataset-status', metavar='DATASET_ID')
+    action.add_argument('--list-runs', metavar='DATASET_ID')
     action.add_argument('--upload', type=Path)
     action.add_argument('--train', metavar='DATASET_ID')
     action.add_argument('--status', metavar='RUN_ID')
+    action.add_argument('--download', metavar='RUN_ID')
     parser.add_argument('--model')
     parser.add_argument('--run-key')
+    parser.add_argument('--prompt-column')
+    parser.add_argument('--completion-column')
+    parser.add_argument('--domain-rows', type=int, default=0)
+    parser.add_argument('--general-rows', type=int, default=0)
+    parser.add_argument('--iterations', type=int, default=3)
+    parser.add_argument('--target-win-rate', type=float, default=0.8)
+    parser.add_argument('--voucher')
+    parser.add_argument('--output', type=Path)
     args = parser.parse_args()
     from adaption import Adaption
     client = Adaption()
     if args.list_models:
         for model in client.autoscientist.list_models().models:
             print(model.id)
+    elif args.dataset_status:
+        status = client.datasets.get_status(args.dataset_status)
+        print(status.model_dump_json(indent=2))
+    elif args.list_runs:
+        for run in client.autoscientist.list(dataset_id=args.list_runs, limit=100):
+            print(run.model_dump_json())
     elif args.upload:
         import httpx
         data = args.upload.read_bytes()
@@ -43,16 +60,40 @@ def main():
     elif args.train:
         if not args.model or not args.run_key:
             parser.error('--train requires --model and --run-key; inspect credits before submission')
+        if bool(args.prompt_column) != bool(args.completion_column):
+            parser.error('--prompt-column and --completion-column must be supplied together')
         models = {m.id for m in client.autoscientist.list_models().models}
         if args.model not in models:
             parser.error('Model not available in the current account')
-        run = client.autoscientist.create(dataset_id=args.train, model=args.model,
-            training_type='lora', max_iterations=1, augmentation_domain_rows=0,
-            augmentation_general_rows=0, idempotency_key=args.run_key)
+        request = {
+            'dataset_id': args.train,
+            'model': args.model,
+            'training_method': 'instruction',
+            'max_iterations': args.iterations,
+            'target_win_rate': args.target_win_rate,
+            'augmentation_domain_rows': args.domain_rows,
+            'augmentation_general_rows': args.general_rows,
+            'idempotency_key': args.run_key,
+        }
+        if args.prompt_column:
+            request['column_mapping'] = {
+                'prompt': args.prompt_column,
+                'completion': args.completion_column,
+            }
+        if args.voucher:
+            request['voucher'] = args.voucher
+        run = client.autoscientist.create(**request)
         print('Run:', run.id, 'Status:', run.status)
     elif args.status:
         run = client.autoscientist.get(args.status)
-        print('Run:', run.id, 'Status:', run.status, 'Download available:', run.download_available)
+        print(run.model_dump_json(indent=2))
+    elif args.download:
+        if not args.output:
+            parser.error('--download requires --output')
+        args.output.parent.mkdir(parents=True, exist_ok=True)
+        with client.autoscientist.with_streaming_response.download(args.download) as response:
+            response.stream_to_file(args.output)
+        print('Downloaded:', args.output, 'Bytes:', args.output.stat().st_size)
 
 if __name__ == '__main__':
     main()
