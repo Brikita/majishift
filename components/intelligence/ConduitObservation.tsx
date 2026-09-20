@@ -51,8 +51,8 @@ export function ConduitObservation({
             <div className="sensor-values">
               <div>
                 <CloudRain />
-                <span>Rain today</span>
-                <strong>{value(reading.rain.planningMm)} mm</strong>
+                <span>Gauge 1 total</span>
+                <strong>{value(reading.rain.gauge1TotalMm)} mm</strong>
               </div>
               <div>
                 <Thermometer />
@@ -71,7 +71,8 @@ export function ConduitObservation({
               </div>
             </div>
             <p className="source-meta">
-              Day 1 uses the mean of the two cumulative rain gauges. Gauge 1:{' '}
+              Raw cumulative gauges are context only; a daily increment requires
+              a previous reading and confirmed reset semantics. Gauge 1:{' '}
               {value(reading.rain.gauge1TotalMm)} mm · Gauge 2:{' '}
               {value(reading.rain.gauge2TotalMm)} mm · Observed{' '}
               {validDate

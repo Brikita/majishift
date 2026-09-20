@@ -39,10 +39,26 @@ export async function GET() {
     const response = await fetch(endpoint, {
       cache: 'no-store',
       signal: AbortSignal.timeout(12_000),
+      headers: { Accept: 'application/geo+json, application/json' },
     });
     if (!response.ok) throw new Error('Conduit station feed is unavailable.');
 
-    const payload = object(await response.json(), 'payload');
+    const contentType = response.headers.get('content-type')?.toLowerCase() ?? '';
+    const body = await response.text();
+    if (!contentType.includes('json') || /^\s*</.test(body)) {
+      throw new Error(
+        'The Conduit provider returned a webpage instead of station GeoJSON. No live values were used.',
+      );
+    }
+    let decoded: unknown;
+    try {
+      decoded = JSON.parse(body);
+    } catch {
+      throw new Error(
+        'The Conduit provider returned invalid GeoJSON. No live values were used.',
+      );
+    }
+    const payload = object(decoded, 'payload');
     const features = payload.features;
     if (!Array.isArray(features) || !features.length) {
       throw new Error('Conduit response contains no station feature.');
@@ -75,8 +91,7 @@ export async function GET() {
       rain: {
         gauge1TotalMm,
         gauge2TotalMm,
-        planningMm: (gauge1TotalMm + gauge2TotalMm) / 2,
-        method: 'mean of two cumulative station gauges',
+        interpretation: 'cumulative totals; daily increment not established',
       },
       temperatureC: number(measurements.st1, 'SHT temperature'),
       wetBulbC: number(measurements.wbt, 'wet-bulb temperature'),

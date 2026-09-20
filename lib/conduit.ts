@@ -6,8 +6,7 @@ export type ConduitReading = {
   rain: {
     gauge1TotalMm: number;
     gauge2TotalMm: number;
-    planningMm: number;
-    method: 'mean of two cumulative station gauges';
+    interpretation: 'cumulative totals; daily increment not established';
   };
   temperatureC: number;
   wetBulbC: number;

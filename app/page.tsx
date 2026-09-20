@@ -35,7 +35,7 @@ export default function Home() {
   const [config, setConfig] = useState<Config>({ ...defaults }),
     [draft, setDraft] = useState<Config>({ ...defaults }),
     [errors, setErrors] = useState<string[]>([]);
-  const [rainfall, setRainfall] = useState<number[]>([...syntheticRain]);
+  const [rainfall] = useState<number[]>([...syntheticRain]);
   const [conduit, setConduit] = useState<ConduitReading | null>(null);
   const [conduitError, setConduitError] = useState<string | null>(null);
   const conduitState = conduit ? 'live' : conduitError ? 'fallback' : 'loading';
@@ -58,7 +58,6 @@ export default function Home() {
         );
       }
       setConduit(payload);
-      setRainfall([payload.rain.planningMm, ...syntheticRain.slice(1)]);
     } catch (error) {
       setConduitError(
         error instanceof Error ? error.message : 'Conduit sync failed.',
@@ -110,7 +109,7 @@ export default function Home() {
               )
                 throw new Error('Expected an empty object');
               return {
-                mode: conduit ? 'Conduit observation + scenario' : 'scenario',
+                mode: conduit ? 'Conduit context + scenario rainfall' : 'scenario',
                 weatherSource: conduit,
                 rainfall,
                 config,
@@ -161,7 +160,7 @@ export default function Home() {
     const data = {
       product: 'MajiShift',
       mode: conduit
-        ? 'Conduit observation + synthetic planning scenario'
+        ? 'Conduit environmental context + synthetic planning scenario'
         : 'synthetic scenario — not campus operations',
       createdAt: new Date().toISOString(),
       weatherSource: conduit,
@@ -171,7 +170,7 @@ export default function Home() {
         topology:
           'Historical-context schematic: Ndarugu source/intake → JKUAT Dam → treatment/essential use, with an irrigation branch.',
         weather: conduit
-          ? 'Day 1 rain uses the latest Conduit station cumulative-gauge mean; days 2–7 and evaporation remain scenario inputs.'
+          ? 'Conduit environmental measurements are attached as context. All seven rainfall days and evaporation remain scenario inputs because a cumulative gauge snapshot is not a daily rainfall increment.'
           : 'Synthetic seven-day rainfall and constant evaporation.',
         operations:
           'Capacity, starting storage, reserve, demands, pump delivery, availability and outage are editable invented defaults.',
@@ -248,7 +247,7 @@ export default function Home() {
           <p>
             <strong>Mixed-evidence scenario.</strong>{' '}
             {conduit
-              ? 'Day 1 rainfall comes from the latest Conduit JKUAT station observation. Days 2–7, dam storage and operating values remain editable assumptions.'
+              ? 'Conduit supplies the latest environmental context. Rainfall, dam storage and operating values remain editable assumptions until gauge semantics and field records are confirmed.'
               : 'The Conduit feed is unavailable, so rainfall and all operating values are scenario assumptions.'}
           </p>
         </div>
@@ -585,9 +584,11 @@ export default function Home() {
           <div>
             <h3>What is connected?</h3>
             <p>
-              The latest public Conduit JKUAT station observation supplies Day 1
-              rainfall and the environmental context card. Days 2–7 are explicit
-              scenarios; no upstream river-flow prediction is made.
+              The latest public Conduit JKUAT station observation supplies the
+              environmental context card. Its cumulative gauge totals are shown
+              as raw observations, but are not treated as a daily rainfall
+              increment. All seven planning days remain explicit scenarios; no
+              upstream river-flow prediction is made.
             </p>
             <a
               href="https://conduit.jhubafrica.com/"

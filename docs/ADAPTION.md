@@ -55,7 +55,7 @@ Credit record: 2 credits for Adaptive Data, 280 credits for each 30B augmentatio
 ## What is implemented
 
 - `app/api/conduit/route.ts` reads and normalizes the latest public Conduit station 61 observation on the server.
-- The application uses the two cumulative gauge totals to calculate Day 1 rainfall and exports the complete observation provenance.
+- The application preserves the two cumulative gauge totals as raw context and exports the complete observation provenance. It does not convert one cumulative snapshot into daily rainfall.
 - `scripts/prepare-adaption-actions.ts` creates 160 training rows and 20 held-out cases from the tested planner.
 - Training contexts use synthetic observations shaped to the Conduit schema. At inference time the app will supply the real latest observation.
 - `scripts/evaluate-adaption-actions.mjs` checks the five-field contract, missing/invalid output, exact match and per-field accuracy.

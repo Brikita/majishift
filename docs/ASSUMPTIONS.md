@@ -23,7 +23,7 @@ For the online qualification round, generated operator-day records are retained 
 | Reservoir surface area | 8,000 m² | Invented scenario value | Survey or GIS water-surface polygon |
 | Evaporation | 4 mm/day | Constant synthetic value | Local observation or weather-data series |
 | Simulated outage | Days 2–3 | Invented stress event | Known maintenance or outage forecast |
-| Seven-day rainfall | Day 1: latest mean of Conduit station 61 cumulative gauges; Days 2–7: 0, 2, 8, 4, 0, 0 mm | Mixed observation/scenario | Confirm gauge semantics and add an authorized forecast for future days |
+| Seven-day rainfall | 0, 0, 2, 8, 4, 0, 0 mm | Synthetic scenario | Confirm gauge semantics, obtain historical increments and add an authorized forecast for future days |
 
 ## Assumed network topology
 
@@ -55,7 +55,7 @@ This schematic is based on historical context, not on a verified current pipe su
 ## Claims the team may make
 
 - MajiShift demonstrates transparent seven-day reservoir planning under rainfall, demand, pumping, reserve and outage scenarios.
-- It uses the latest public Conduit station observation in Day 1 direct-rain accounting and preserves its timestamp and two gauge totals.
+- It preserves the latest public Conduit station timestamp and two gauge totals as environmental context; one cumulative snapshot is not used in direct-rain accounting.
 - It compares an adaptive proposal with a fixed schedule using visible water accounting.
 - It gives judges an interactive, mobile-compatible GIS context and an auditable explanation for each daily decision.
 - The interface is ready for site-specific calibration once verified inputs become available.
@@ -69,4 +69,4 @@ This schematic is based on historical context, not on a verified current pipe su
 
 ## Honest demo wording
 
-> We could not validate current operating records before the deadline, so this is a mixed-evidence scenario prototype. The latest public Conduit station observation supplies Day 1 rainfall and environmental context. The dam point comes from OpenStreetMap, while the system flow and every reservoir operating number remain editable assumptions. Our contribution is the traceable path from observation to water balance to reviewable action. Deployment would begin by verifying the site configuration, gauge semantics and operator workflow.
+> We could not validate current operating records before the deadline, so this is a mixed-evidence scenario prototype. The latest public Conduit station observation supplies environmental context when available; its cumulative rain-gauge totals are not treated as a daily increment. The dam point comes from OpenStreetMap, while rainfall, system flow and every reservoir operating number remain editable assumptions. Our contribution is the traceable path from observation to water balance to reviewable action. Deployment would begin by verifying the site configuration, gauge semantics and operator workflow.

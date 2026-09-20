@@ -4,7 +4,7 @@ Help reservoir operators compare pumping plans and maintain essential water rese
 
 ## Current slice
 
-A working seven-day scenario calculator with a reserve-first planning heuristic, fixed-schedule comparison, editable assumptions, shortfall accounting, an accessible daily table, JSON export, and a responsive JKUAT campus atlas. A server-side adapter reads the latest public Conduit@Empathy station 61 observation; the mean of its two cumulative rain-gauge totals replaces Day 1 scenario rain and the station appears on the map. Days 2–7, reservoir state and every operating input remain assumptions. Pipe routes, treatment links, demand areas and the dam profile remain unverified. This is not a live campus control system, validated digital twin, forecast product or optimization proof.
+A working seven-day scenario calculator with a reserve-first planning heuristic, fixed-schedule comparison, editable assumptions, shortfall accounting, an accessible daily table, JSON export, and a responsive JKUAT campus atlas. A server-side adapter reads the latest public Conduit@Empathy station 61 observation and places the station on the map. The feed's cumulative rain-gauge totals are shown as raw context only; they are not treated as a daily rainfall increment without a previous reading and confirmed reset semantics. All seven rainfall days, reservoir state and every operating input remain assumptions. Pipe routes, treatment links, demand areas and the dam profile remain unverified. This is not a live campus control system, validated digital twin, forecast product or optimization proof.
 
 ## Run
 
