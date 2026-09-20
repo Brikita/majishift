@@ -608,8 +608,8 @@ export default function Home() {
               Adaption processed 160 rows and produced a 30B checkpoint after
               three AutoScientist iterations. Its 53.71% win rate remains below
               the 80% target. The enhanced-label experiment also completed three
-              iterations and scored 55.67%. A corrected 4B experiment now fuses
-              every scenario into its prompt and uses much less augmentation.
+              iterations and scored 55.67%. The corrected fused-context 4B run
+              completed at 53.45%, so it did not beat the enhanced 30B result.
               Every checkpoint still needs held-out validation and a separate
               serving endpoint before it can generate briefs here.
             </p>

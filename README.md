@@ -26,7 +26,7 @@ React + TypeScript, Vinext/Vite, Tailwind and Shadcn components. A pure TypeScri
 - [Synthetic operator-record contract](docs/SYNTHETIC_OPERATOR_RECORDS.md)
 - [Evidence and assumptions](docs/EVIDENCE.md)
 
-`npm run prepare:adaption` creates 160 training rows, 20 held-out cases, a fused prompt/completion file and 1,260 explicitly synthetic operator-day records. Two 30B AutoScientist experiments completed; their best win rates were 0.5371 and 0.5567 against a 0.80 target. Neither checkpoint is served or validated on the held-out cases. Never put an API key in the browser or commit a secret.
+`npm run prepare:adaption` creates 160 training rows, 20 held-out cases, a fused prompt/completion file and 1,260 explicitly synthetic operator-day records. Three AutoScientist experiments completed: strict 30B at 0.5371, enhanced-label 30B at 0.5567 and fused-context Gemma 4B at 0.5345, all against a 0.80 target. No checkpoint is served or validated on the held-out cases. Never put an API key in the browser or commit a secret.
 
 ## Verification
 

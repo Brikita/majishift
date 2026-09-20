@@ -131,9 +131,9 @@ export function ConduitObservation({
             <strong>Integration state:</strong> Adaptive Data completed 160 rows.
             The first 30B AutoScientist run trained for three iterations and
             scored 53.71% against an 80% target. The enhanced-label experiment
-            also completed three iterations and scored 55.67%. A corrected 4B
-            experiment now fuses every scenario into its prompt and uses much
-            less augmentation. Model serving and held-out validation are not
+            also completed three iterations and scored 55.67%. The corrected
+            fused-context 4B run completed at 53.45%, so it did not beat the
+            enhanced 30B result. Model serving and held-out validation are not
             connected yet.
           </p>
         </div>
