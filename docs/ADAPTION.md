@@ -37,7 +37,7 @@ Both experiments use `nvidia/Nemotron-3-Nano-Omni-30B-A3B-Reasoning-BF16`, LoRA,
 | Experiment | Run ID | Completion labels | Status | Best win rate |
 |---|---|---|---|---|
 | Strict JSON contract | `a28a2263-4033-4e27-bab3-c97d56eb5d93` | `original_completion` | Succeeded after 3/3 iterations | 0.5371 against a 0.80 target |
-| Adaption enhanced labels | `62a90de1-0309-4a16-9b17-0018c58235cd` | internal `fused_generation` column | Running, 1/3 iterations complete | 0.5567 so far against a 0.80 target |
+| Adaption enhanced labels | `62a90de1-0309-4a16-9b17-0018c58235cd` | internal `fused_generation` column | Running, 2/3 iterations complete at last check | 0.5567 so far against a 0.80 target |
 
 The strict run succeeded because it completed its iteration budget; it did not reach the target win rate. Its best checkpoint was downloaded to the ignored `work/adaption-actions/` directory and its Zstandard tar stream was verified successfully. The archive contains the expected LoRA adapter, including a 2,830,128,272-byte `adapter_model.safetensors` file. This verifies transfer integrity, not inference quality. The enhanced-label experiment tests whether Adaption's richer grounded completions improve the same model and augmentation recipe, but its Markdown-fenced outputs will require a tolerant parser or output cleanup if selected.
 

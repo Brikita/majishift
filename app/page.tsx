@@ -605,8 +605,8 @@ export default function Home() {
             <p>
               Adaption processed 160 rows and produced a 30B checkpoint after
               three AutoScientist iterations. Its 53.71% win rate remains below
-              the 80% target. A second label experiment is running and reached
-              55.67% after its first of three iterations. The
+              the 80% target. A second label experiment is running; its best
+              score so far is 55.67%. The
               checkpoint still needs held-out validation and a separate serving
               endpoint before it can generate briefs here.
             </p>
