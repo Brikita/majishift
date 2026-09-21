@@ -92,7 +92,11 @@ export async function GET() {
       return Number.isFinite(candidateTime) && candidateTime > latestTime ? candidate : latest;
     });
     const observedAt = textValue(value(record, ['Time', 'time', 'timestamp', 'datetime', 'created_at']));
-    if (!observedAt) throw new Error('Conduit response has no observation timestamp.');
+    if (!observedAt) {
+      throw new Error(
+        `Conduit response has no observation timestamp. Available fields: ${Object.keys(record).slice(0, 30).join(', ')}`,
+      );
+    }
 
     const reading: ConduitReading = {
       source: 'Conduit@Empathy', stationId: '61', observedAt,
