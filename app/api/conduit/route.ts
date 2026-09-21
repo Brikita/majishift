@@ -87,11 +87,11 @@ export async function GET() {
     if (!records.length) throw new Error('Conduit returned no observations for the current date range.');
 
     const record = records.reduce((latest, candidate) => {
-      const candidateTime = Date.parse(textValue(value(candidate, ['Time', 'time', 'timestamp', 'datetime'])));
-      const latestTime = Date.parse(textValue(value(latest, ['Time', 'time', 'timestamp', 'datetime'])));
+      const candidateTime = Date.parse(textValue(value(candidate, ['Time', 'time', 'timestamp', 'datetime', 'ts'])));
+      const latestTime = Date.parse(textValue(value(latest, ['Time', 'time', 'timestamp', 'datetime', 'ts'])));
       return Number.isFinite(candidateTime) && candidateTime > latestTime ? candidate : latest;
     });
-    const observedAt = textValue(value(record, ['Time', 'time', 'timestamp', 'datetime', 'created_at']));
+    const observedAt = textValue(value(record, ['Time', 'time', 'timestamp', 'datetime', 'created_at', 'ts']));
     if (!observedAt) {
       throw new Error(
         `Conduit response has no observation timestamp. Available fields: ${Object.keys(record).slice(0, 30).join(', ')}`,
@@ -102,21 +102,21 @@ export async function GET() {
       source: 'Conduit@Empathy', stationId: '61', observedAt,
       coordinates: STATION_COORDINATES,
       rain: {
-        gauge1TotalMm: numeric(record, ['Rain Gauge 1 Total Today', 'rgt', 'rain_gauge_1_total_today'], 'rain gauge 1 total'),
-        gauge2TotalMm: numeric(record, ['Rain Gauge 2 Total Today', 'rgt2', 'rain_gauge_2_total_today'], 'rain gauge 2 total'),
+        gauge1TotalMm: numeric(record, ['Rain Gauge 1 Total Today', 'rgt', 'rg1tt', 'rain_gauge_1_total_today'], 'rain gauge 1 total'),
+        gauge2TotalMm: numeric(record, ['Rain Gauge 2 Total Today', 'rgt2', 'rg2tt', 'rain_gauge_2_total_today'], 'rain gauge 2 total'),
         interpretation: 'cumulative totals; daily increment not established',
       },
-      temperatureC: numeric(record, ['SHT Temperature', 'st1', 'sht_temperature'], 'SHT temperature'),
-      wetBulbC: numeric(record, ['Wet Bulb Temperature', 'wbt', 'wet_bulb_temperature'], 'wet-bulb temperature'),
-      heatIndexC: numeric(record, ['Heat Index', 'hi', 'heat_index'], 'heat index'),
-      humidityPct: numeric(record, ['SHT Humidity', 'sh1', 'sht_humidity'], 'humidity'),
-      pressureHpa: numeric(record, ['BMX Pressure 1', 'bp1', 'bmx_pressure_1'], 'air pressure'),
-      windSpeedMs: numeric(record, ['Wind Speed', 'ws', 'wind_speed'], 'wind speed'),
-      windDirectionDeg: numeric(record, ['Wind Direction', 'wd', 'wind_direction'], 'wind direction'),
+      temperatureC: numeric(record, ['SHT Temperature', 'st1', 'temp_sht', 'sht_temperature'], 'SHT temperature'),
+      wetBulbC: numeric(record, ['Wet Bulb Temperature', 'wbt', 'wet_bulb_temp', 'wet_bulb_temperature'], 'wet-bulb temperature'),
+      heatIndexC: numeric(record, ['Heat Index', 'hi', 'heat_idx', 'heat_index'], 'heat index'),
+      humidityPct: numeric(record, ['SHT Humidity', 'sh1', 'humidity_sht', 'sht_humidity'], 'humidity'),
+      pressureHpa: numeric(record, ['BMX Pressure 1', 'bp1', 'press_bmx', 'bmx_pressure_1'], 'air pressure'),
+      windSpeedMs: numeric(record, ['Wind Speed', 'ws', 'wind_spd', 'wind_speed'], 'wind speed'),
+      windDirectionDeg: numeric(record, ['Wind Direction', 'wd', 'wind_dir', 'wind_direction'], 'wind direction'),
       windGustMs: numeric(record, ['Wind Gust', 'wg', 'wind_gust'], 'wind gust'),
-      ultraviolet: numeric(record, ['SI1145 Ultraviolet 1', 'su1', 'si1145_ultraviolet_1'], 'ultraviolet'),
-      infrared: numeric(record, ['SI1145 Infrared 1', 'si1', 'si1145_infrared_1'], 'infrared'),
-      visibleLight: numeric(record, ['SI1145 Visible 1', 'sv1', 'si1145_visible_1'], 'visible light'),
+      ultraviolet: numeric(record, ['SI1145 Ultraviolet 1', 'su1', 'si1145_uv', 'si1145_ultraviolet_1'], 'ultraviolet'),
+      infrared: numeric(record, ['SI1145 Infrared 1', 'si1', 'si1145_ir', 'si1145_infrared_1'], 'infrared'),
+      visibleLight: numeric(record, ['SI1145 Visible 1', 'sv1', 'si1145_vis', 'si1145_visible_1'], 'visible light'),
       provenance: {
         portal: 'https://conduit.jhubafrica.com/',
         dataset: 'Authenticated Conduit JKUAT API, station 61',
