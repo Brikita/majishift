@@ -62,10 +62,10 @@ export function CampusMap({
           style: {
             version: 8,
             sources: {
-              'esri-world-imagery': {
+              'esri-world-topographic': {
                 type: 'raster',
                 tiles: [
-                  'https://server.arcgisonline.com/ArcGIS/rest/services/World_Imagery/MapServer/tile/{z}/{y}/{x}',
+                  'https://server.arcgisonline.com/ArcGIS/rest/services/World_Topo_Map/MapServer/tile/{z}/{y}/{x}',
                 ],
                 tileSize: 256,
                 attribution:
@@ -74,9 +74,9 @@ export function CampusMap({
             },
             layers: [
               {
-                id: 'esri-world-imagery',
+                id: 'esri-world-topographic',
                 type: 'raster',
-                source: 'esri-world-imagery',
+                source: 'esri-world-topographic',
               },
             ],
           },
@@ -500,8 +500,8 @@ export function CampusMap({
       </div>
 
       <p className="atlas-footnote">
-        Imagery © Esri, Maxar, Earthstar Geographics and the GIS User Community
-        · Building context © OpenFreeMap / OpenStreetMap contributors. Map
+        Basemap © Esri and the GIS User Community · Building context ©
+        OpenFreeMap / OpenStreetMap contributors. Map
         geometry does not establish storage capacity, pipe routes or service
         outcomes.
       </p>
