@@ -31,7 +31,8 @@
     "build/**",
     "dist/**",
     "coverage/**",
-    "next-env.d.ts"
+    "next-env.d.ts",
+    "brag-output/**"
   ],
   "rules": {
     "no-array-constructor": "error",

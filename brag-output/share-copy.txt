@@ -1,0 +1,1 @@
+MajiShift turns Conduit weather observations into an inspectable seven-day water-planning scenario. Compare pumping schedules, review reserve risks, and export the assumptions behind the decision.

@@ -39,3 +39,13 @@ next-env.d.ts
 /work/
 *.tsbuildinfo
 __pycache__/
+.
+# Local video production dependencies and render caches
+/brag-output/tools/node_modules/
+/brag-output/composition/.hyperframes/
+/brag-output/composition/renders/
+/brag-output/MajiShift-demo-package.zip
+/brag-output/final-frames/
+/brag-output/final-review/
+/brag-output/review-frames/
+n

@@ -1,0 +1,6 @@
+{
+  "errors": [],
+  "metrics": "Lowest end-of-day reserve\n\n5,007 m³\nProposed schedule\n\nDays below reserve\n\n0 / 7\nFixed schedule: 5 days\n\nEssential demand unmet\n\n0 m³\nCovered in this scenario",
+  "decision": "THE NEXT MOVE\n\nPlan 8.5 hours of pumping on day 1\n\nBuild a buffer before 2 unavailable pumping days. Future rainfall is not counted on for that buffer.\n\nThe end-of-day reserve target is met throughout this scenario. Operator review is required before real use.",
+  "download": "majishift-scenario.json"
+}

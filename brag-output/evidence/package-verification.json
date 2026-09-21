@@ -1,0 +1,62 @@
+{
+  "verifiedAt": "2026-09-20T22:47:44.520Z",
+  "duration": 240,
+  "width": 1920,
+  "height": 1080,
+  "codec": "h264",
+  "frameRate": "24/1",
+  "audioStreams": 0,
+  "decodeErrors": "",
+  "sceneCount": 22,
+  "captionAndNarrationMatch": true,
+  "captionReadingTimeFloor": "0.3 seconds per word or more",
+  "actualExportMatchesEditedCalculation": true,
+  "weatherAudit": [
+    {
+      "date": "2026-08-29",
+      "samples": 1415,
+      "temperatureAndRainMatch": true
+    },
+    {
+      "date": "2026-08-30",
+      "samples": 1403,
+      "temperatureAndRainMatch": true
+    },
+    {
+      "date": "2026-08-31",
+      "samples": 1415,
+      "temperatureAndRainMatch": true
+    },
+    {
+      "date": "2026-09-01",
+      "samples": 1411,
+      "temperatureAndRainMatch": true
+    },
+    {
+      "date": "2026-09-02",
+      "samples": 1415,
+      "temperatureAndRainMatch": true
+    },
+    {
+      "date": "2026-09-03",
+      "samples": 1414,
+      "temperatureAndRainMatch": true
+    },
+    {
+      "date": "2026-09-04",
+      "samples": 1412,
+      "temperatureAndRainMatch": true
+    }
+  ],
+  "sha256": "efd0ac5e8b1b5192d2de5a624429adfd3337825282a9c213f1e1e7cc6a1afb4f",
+  "submissionFinishingSteps": [
+    "Add real team clips in the 8–22-second opening slot.",
+    "Clarify silent-audio acceptance or add narration before submission."
+  ],
+  "visualReview": {
+    "completed": true,
+    "sceneMidpointsReviewed": 22,
+    "interactionFramesReviewed": 5,
+    "findings": "Captions and credits readable; images and recorded edit present; no missing scenes or clipped required text. Atlas overview is contextual; detailed values are shown in later focused scenes."
+  }
+}

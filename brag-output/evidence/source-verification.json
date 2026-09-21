@@ -1,0 +1,42 @@
+{
+  "weatherAudit": [
+    {
+      "date": "2026-08-29",
+      "samples": 1415,
+      "temperatureAndRainMatch": true
+    },
+    {
+      "date": "2026-08-30",
+      "samples": 1403,
+      "temperatureAndRainMatch": true
+    },
+    {
+      "date": "2026-08-31",
+      "samples": 1415,
+      "temperatureAndRainMatch": true
+    },
+    {
+      "date": "2026-09-01",
+      "samples": 1411,
+      "temperatureAndRainMatch": true
+    },
+    {
+      "date": "2026-09-02",
+      "samples": 1415,
+      "temperatureAndRainMatch": true
+    },
+    {
+      "date": "2026-09-03",
+      "samples": 1414,
+      "temperatureAndRainMatch": true
+    },
+    {
+      "date": "2026-09-04",
+      "samples": 1412,
+      "temperatureAndRainMatch": true
+    }
+  ],
+  "captionCount": 22,
+  "captionAndNarrationMatch": true,
+  "exportMatchesCalculation": true
+}

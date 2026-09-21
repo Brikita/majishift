@@ -1,0 +1,294 @@
+{
+  "ok": true,
+  "errors": [],
+  "warnings": [],
+  "contrast": [
+    {
+      "time": 24,
+      "selector": "div.brand",
+      "text": "MAJISHIFT / DEMO",
+      "ratio": 8.5,
+      "wcagAA": true,
+      "large": false,
+      "fg": "rgb(189,211,220)",
+      "bg": "rgb(14,52,67)"
+    },
+    {
+      "time": 24,
+      "selector": "div.chapter",
+      "text": "01 / THE PROBLEM",
+      "ratio": 8.39,
+      "wcagAA": true,
+      "large": true,
+      "fg": "rgb(142,220,213)",
+      "bg": "rgb(14,52,67)"
+    },
+    {
+      "time": 24,
+      "selector": "h1.title",
+      "text": "One reservoir. Competing needs.",
+      "ratio": 12.28,
+      "wcagAA": true,
+      "large": true,
+      "fg": "rgb(244,247,250)",
+      "bg": "rgb(14,52,67)"
+    },
+    {
+      "time": 24,
+      "selector": "div.caption",
+      "text": "Essential use, irrigation and pumping availability",
+      "ratio": 13.2,
+      "wcagAA": true,
+      "large": true,
+      "fg": "rgb(255,255,255)",
+      "bg": "rgb(14,52,67)"
+    },
+    {
+      "time": 24,
+      "selector": "div.foot",
+      "text": "Historical weather · Synthetic operations · Workin",
+      "ratio": 8.5,
+      "wcagAA": true,
+      "large": false,
+      "fg": "rgb(189,211,220)",
+      "bg": "rgb(14,52,67)"
+    },
+    {
+      "time": 72,
+      "selector": "div.brand",
+      "text": "MAJISHIFT / DEMO",
+      "ratio": 8.5,
+      "wcagAA": true,
+      "large": false,
+      "fg": "rgb(189,211,220)",
+      "bg": "rgb(14,52,67)"
+    },
+    {
+      "time": 72,
+      "selector": "div.chapter",
+      "text": "02 / CONDUIT DATA",
+      "ratio": 8.39,
+      "wcagAA": true,
+      "large": true,
+      "fg": "rgb(142,220,213)",
+      "bg": "rgb(14,52,67)"
+    },
+    {
+      "time": 72,
+      "selector": "h1.title",
+      "text": "35.6 m³ changes the storage balance",
+      "ratio": 12.28,
+      "wcagAA": true,
+      "large": true,
+      "fg": "rgb(244,247,250)",
+      "bg": "rgb(14,52,67)"
+    },
+    {
+      "time": 72,
+      "selector": "b",
+      "text": "FIXED ASSUMPTION",
+      "ratio": 7.41,
+      "wcagAA": true,
+      "large": true,
+      "fg": "rgb(142,220,213)",
+      "bg": "rgb(18,61,77)"
+    },
+    {
+      "time": 72,
+      "selector": "h2",
+      "text": "224.0 m³",
+      "ratio": 10.85,
+      "wcagAA": true,
+      "large": true,
+      "fg": "rgb(244,247,250)",
+      "bg": "rgb(18,61,77)"
+    },
+    {
+      "time": 72,
+      "selector": "p",
+      "text": "Estimated surface loss4 mm/day × 7 days8,000 m² su",
+      "ratio": 8.99,
+      "wcagAA": true,
+      "large": true,
+      "fg": "rgb(212,229,233)",
+      "bg": "rgb(18,61,77)"
+    },
+    {
+      "time": 72,
+      "selector": "b",
+      "text": "CONDUIT REPLAY",
+      "ratio": 4.21,
+      "wcagAA": true,
+      "large": true,
+      "fg": "rgb(8,127,132)",
+      "bg": "rgb(230,243,239)"
+    },
+    {
+      "time": 72,
+      "selector": "h2",
+      "text": "259.6 m³",
+      "ratio": 11.6,
+      "wcagAA": true,
+      "large": true,
+      "fg": "rgb(23,51,66)",
+      "bg": "rgb(230,243,239)"
+    },
+    {
+      "time": 72,
+      "selector": "p",
+      "text": "Estimated surface lossDaily temperature inputsSame",
+      "ratio": 6.33,
+      "wcagAA": true,
+      "large": true,
+      "fg": "rgb(50,94,98)",
+      "bg": "rgb(230,243,239)"
+    },
+    {
+      "time": 72,
+      "selector": "b",
+      "text": "DIFFERENCE",
+      "ratio": 7.41,
+      "wcagAA": true,
+      "large": true,
+      "fg": "rgb(142,220,213)",
+      "bg": "rgb(18,61,77)"
+    },
+    {
+      "time": 72,
+      "selector": "h2",
+      "text": "+35.6 m³",
+      "ratio": 10.85,
+      "wcagAA": true,
+      "large": true,
+      "fg": "rgb(244,247,250)",
+      "bg": "rgb(18,61,77)"
+    },
+    {
+      "time": 72,
+      "selector": "p",
+      "text": "Changes storage outputsPumping total: 7,875 m³Unch",
+      "ratio": 8.99,
+      "wcagAA": true,
+      "large": true,
+      "fg": "rgb(212,229,233)",
+      "bg": "rgb(18,61,77)"
+    },
+    {
+      "time": 72,
+      "selector": "div.caption",
+      "text": "Compared with four millimetres per day, Conduit we",
+      "ratio": 13.2,
+      "wcagAA": true,
+      "large": true,
+      "fg": "rgb(255,255,255)",
+      "bg": "rgb(14,52,67)"
+    },
+    {
+      "time": 72,
+      "selector": "div.foot",
+      "text": "Historical weather · Synthetic operations · Workin",
+      "ratio": 8.5,
+      "wcagAA": true,
+      "large": false,
+      "fg": "rgb(189,211,220)",
+      "bg": "rgb(14,52,67)"
+    },
+    {
+      "time": 120,
+      "selector": "div.brand",
+      "text": "MAJISHIFT / DEMO",
+      "ratio": 8.5,
+      "wcagAA": true,
+      "large": false,
+      "fg": "rgb(189,211,220)",
+      "bg": "rgb(14,52,67)"
+    },
+    {
+      "time": 120,
+      "selector": "div.chapter",
+      "text": "04 / COMPARE",
+      "ratio": 8.39,
+      "wcagAA": true,
+      "large": true,
+      "fg": "rgb(142,220,213)",
+      "bg": "rgb(14,52,67)"
+    },
+    {
+      "time": 120,
+      "selector": "h1.title",
+      "text": "The reserve is the decision threshold",
+      "ratio": 12.28,
+      "wcagAA": true,
+      "large": true,
+      "fg": "rgb(244,247,250)",
+      "bg": "rgb(14,52,67)"
+    },
+    {
+      "time": 120,
+      "selector": "div.caption",
+      "text": "In this scenario, the fixed schedule falls below t",
+      "ratio": 13.2,
+      "wcagAA": true,
+      "large": true,
+      "fg": "rgb(255,255,255)",
+      "bg": "rgb(14,52,67)"
+    },
+    {
+      "time": 120,
+      "selector": "div.foot",
+      "text": "Historical weather · Synthetic operations · Workin",
+      "ratio": 8.5,
+      "wcagAA": true,
+      "large": false,
+      "fg": "rgb(189,211,220)",
+      "bg": "rgb(14,52,67)"
+    },
+    {
+      "time": 168,
+      "selector": "div.brand",
+      "text": "MAJISHIFT / DEMO",
+      "ratio": 8.5,
+      "wcagAA": true,
+      "large": false,
+      "fg": "rgb(189,211,220)",
+      "bg": "rgb(14,52,67)"
+    },
+    {
+      "time": 168,
+      "selector": "div.foot",
+      "text": "Historical weather · Synthetic operations · Workin",
+      "ratio": 8.5,
+      "wcagAA": true,
+      "large": false,
+      "fg": "rgb(189,211,220)",
+      "bg": "rgb(14,52,67)"
+    },
+    {
+      "time": 216,
+      "selector": "div.brand",
+      "text": "MAJISHIFT / DEMO",
+      "ratio": 8.5,
+      "wcagAA": true,
+      "large": false,
+      "fg": "rgb(189,211,220)",
+      "bg": "rgb(14,52,67)"
+    },
+    {
+      "time": 216,
+      "selector": "div.foot",
+      "text": "Historical weather · Synthetic operations · Workin",
+      "ratio": 8.5,
+      "wcagAA": true,
+      "large": false,
+      "fg": "rgb(189,211,220)",
+      "bg": "rgb(14,52,67)"
+    }
+  ],
+  "contrastFailures": 0,
+  "_meta": {
+    "version": "0.8.56",
+    "latestVersion": "0.8.56",
+    "updateAvailable": false,
+    "deprecated": true
+  }
+}

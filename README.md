@@ -8,7 +8,7 @@ A working seven-day historical replay and scenario calculator with a reserve-fir
 
 ## Meaningful Conduit use
 
-The default 29 August-4 September 2026 replay converts more than 9,800 station observations into seven daily decision inputs. The supplied period recorded 0.0 mm rain. Conduit temperature minima, maxima and means produce 79.6 mm of reference evapotranspiration, compared with 28.0 mm under the editable fixed assumption. At the default 8,000 m2 scenario surface area, the Conduit-driven calculation adds about 413 m3 of estimated loss and changes the recommended seven-day pumping volume from 7,875 m3 to 8,250 m3. This is a controlled counterfactual demonstration: real weather drives the calculation while reservoir operations remain labelled synthetic.
+The default 29 August-4 September 2026 replay converts more than 9,800 station observations into seven daily decision inputs. The supplied period recorded 0.0 mm rain. Conduit temperature minima, maxima and means produce 32.45 mm of reference evapotranspiration, compared with 28.0 mm under the editable fixed assumption. At the default 8,000 m2 scenario surface area, the Conduit-driven calculation adds 35.6 m3 of estimated loss and changes the storage trajectory; the recommended seven-day pumping total remains 7,875 m3 at these defaults. This is a controlled counterfactual demonstration: real weather drives the calculation while reservoir operations remain labelled synthetic.
 
 ## Run
 

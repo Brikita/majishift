@@ -1,0 +1,79 @@
+{
+  "schemaVersion": 1,
+  "duration": 240,
+  "samples": [
+    4,
+    14,
+    27,
+    37,
+    48,
+    60,
+    70,
+    82,
+    92,
+    103,
+    116,
+    126,
+    138,
+    149,
+    160,
+    175,
+    190,
+    201,
+    211,
+    221,
+    230,
+    237
+  ],
+  "tolerance": 2,
+  "strict": false,
+  "collapseStatic": true,
+  "ok": true,
+  "errorCount": 0,
+  "warningCount": 0,
+  "infoCount": 1,
+  "issueCount": 1,
+  "totalIssueCount": 1,
+  "truncated": false,
+  "issues": [
+    {
+      "code": "container_overflow",
+      "severity": "info",
+      "time": 82,
+      "selector": "div.screen.inputs > img:nth-of-type(1)",
+      "containerSelector": "div.screen.inputs",
+      "message": "Element extends outside a clipping layout container.",
+      "rect": {
+        "left": 665,
+        "top": 179.63,
+        "right": 1255,
+        "bottom": 2684.27,
+        "width": 590,
+        "height": 2504.64
+      },
+      "containerRect": {
+        "left": 80,
+        "top": 194.63,
+        "right": 1840,
+        "bottom": 839.63,
+        "width": 1760,
+        "height": 645
+      },
+      "overflow": {
+        "top": 15,
+        "bottom": 1844.64
+      },
+      "fixHint": "Resize/reposition the child or container, or mark intentional overflow with data-layout-allow-overflow.",
+      "firstSeen": 82,
+      "lastSeen": 82,
+      "occurrences": 1,
+      "heldMs": 0
+    }
+  ],
+  "_meta": {
+    "version": "0.8.56",
+    "latestVersion": "0.8.56",
+    "updateAvailable": false,
+    "deprecated": true
+  }
+}

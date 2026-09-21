@@ -1,0 +1,178 @@
+[
+  {
+    "end": 8,
+    "start": 0,
+    "chapter": "THE QUESTION",
+    "title": "When the pumps stop,\nthe plan matters.",
+    "caption": "MajiShift helps an operator compare pumping plans before an interruption puts essential water reserves under pressure.",
+    "visual": "hero"
+  },
+  {
+    "end": 22,
+    "start": 8,
+    "chapter": "THE TEAM",
+    "title": "Built by Brian & Patrick",
+    "caption": "Brian Mwangi: backend engineering, Adaption model training and data aggregation. Patrick Leon: frontend development, UI/UX, QA and GIS.",
+    "visual": "team"
+  },
+  {
+    "end": 32,
+    "start": 22,
+    "chapter": "01 / THE PROBLEM",
+    "title": "One reservoir. Competing needs.",
+    "caption": "Essential use, irrigation and pumping availability all draw on the same limited water balance. Operators need to see the trade-offs.",
+    "visual": "atlas.png"
+  },
+  {
+    "end": 42,
+    "start": 32,
+    "chapter": "01 / THE PROBLEM",
+    "title": "A decision before an interruption",
+    "caption": "Our JKUAT pilot exploration asks a practical question: can a proposed schedule maintain a minimum reserve through two unavailable pumping days?",
+    "visual": "overview.png"
+  },
+  {
+    "end": 54,
+    "start": 42,
+    "chapter": "02 / CONDUIT DATA",
+    "title": "Real observations. Explicit assumptions.",
+    "caption": "The historical replay uses official Conduit station 61 observations from 29 August to 4 September 2026. Operating values remain synthetic.",
+    "visual": "data"
+  },
+  {
+    "end": 65,
+    "start": 54,
+    "chapter": "02 / CONDUIT DATA",
+    "title": "Temperature becomes a planning input",
+    "caption": "Daily temperature ranges drive a Hargreaves reference evapotranspiration estimate. Measured rain also enters the water balance; this replay recorded no rain.",
+    "visual": "weather.png"
+  },
+  {
+    "end": 76,
+    "start": 65,
+    "chapter": "02 / CONDUIT DATA",
+    "title": "35.6 m³ changes the storage balance",
+    "caption": "Compared with four millimetres per day, Conduit weather adds 35.6 cubic metres of estimated loss. Total default pumping remains unchanged.",
+    "visual": "weatherImpact"
+  },
+  {
+    "end": 87,
+    "start": 76,
+    "chapter": "03 / SET THE SCENARIO",
+    "title": "Start with the operating assumptions",
+    "caption": "This example starts with 9,000 cubic metres in storage, a 5,000 cubic metre reserve, and essential demand of 1,400 cubic metres daily.",
+    "visual": "inputs-focus.png"
+  },
+  {
+    "end": 98,
+    "start": 87,
+    "chapter": "03 / SET THE SCENARIO",
+    "title": "Prepare for two unavailable days",
+    "caption": "Pumping is unavailable on days two and three. The fixed schedule pumps four hours on available days; the proposed plan prepares a buffer.",
+    "visual": "decision.png"
+  },
+  {
+    "end": 110,
+    "start": 98,
+    "chapter": "04 / COMPARE",
+    "title": "Two plans. One water balance.",
+    "caption": "Both schedules use the same weather and operating assumptions. The teal line follows the proposed schedule; the dashed line follows the fixed schedule.",
+    "visual": "chart.png"
+  },
+  {
+    "end": 121,
+    "start": 110,
+    "chapter": "04 / COMPARE",
+    "title": "The reserve is the decision threshold",
+    "caption": "In this scenario, the fixed schedule falls below the reserve on five days. The proposed schedule stays above the reserve throughout.",
+    "visual": "metrics.png"
+  },
+  {
+    "end": 132,
+    "start": 121,
+    "chapter": "04 / COMPARE",
+    "title": "Inspect the trade-off",
+    "caption": "The proposed plan pumps 7,875 cubic metres versus 5,000 for the fixed schedule. This protects the reserve through more pumping, not water savings.",
+    "visual": "tradeoff"
+  },
+  {
+    "end": 144,
+    "start": 132,
+    "chapter": "05 / REVIEW THE SCHEDULE",
+    "title": "A recommendation you can inspect",
+    "caption": "Day one calls for 4.5 hours of pumping. Days two and three correctly show zero pumping because equipment is unavailable.",
+    "visual": "schedule.png"
+  },
+  {
+    "end": 155,
+    "start": 144,
+    "chapter": "05 / REVIEW THE SCHEDULE",
+    "title": "Essential demand comes first",
+    "caption": "The table exposes each day’s rain, estimated loss, pumping hours and ending storage. Unserved irrigation and unmet essential demand are tracked explicitly.",
+    "visual": "schedule-detail.png"
+  },
+  {
+    "end": 168,
+    "start": 155,
+    "chapter": "06 / CHANGE AN ASSUMPTION",
+    "title": "What if starting storage is lower?",
+    "caption": "Now reduce starting storage from 9,000 to 8,000 cubic metres and compare again. The same weather and outage assumptions remain in place.",
+    "visual": "edit"
+  },
+  {
+    "end": 182,
+    "start": 168,
+    "chapter": "06 / CHANGE AN ASSUMPTION",
+    "title": "The recommendation responds",
+    "caption": "Day-one pumping rises from 4.5 to 8.5 hours. The revised plan builds the same outage buffer from a lower starting level.",
+    "visual": "edited-decision.png"
+  },
+  {
+    "end": 196,
+    "start": 182,
+    "chapter": "07 / KEEP THE EVIDENCE",
+    "title": "Export the complete scenario",
+    "caption": "Export saves the inputs, weather provenance and calculated schedules as JSON. That gives the operator a record to review and share.",
+    "visual": "export"
+  },
+  {
+    "end": 207,
+    "start": 196,
+    "chapter": "08 / HOW IT WORKS",
+    "title": "A transparent calculation",
+    "caption": "React and TypeScript present the planner and GIS view. A shared water-balance module compares schedules; the historical weather replay supplies daily inputs.",
+    "visual": "architecture"
+  },
+  {
+    "end": 216,
+    "start": 207,
+    "chapter": "08 / HOW IT WORKS",
+    "title": "Separate the prototype from the research",
+    "caption": "Adaption model-training experiments are a separate research track. The working schedules shown here come from the transparent planner, not a served AI model.",
+    "visual": "research"
+  },
+  {
+    "end": 226,
+    "start": 216,
+    "chapter": "09 / IMPACT",
+    "title": "Make trade-offs visible before acting",
+    "caption": "The intended benefit is earlier preparation and clearer reserve planning. These scenario results are not measured campus savings or evidence of field performance.",
+    "visual": "impact"
+  },
+  {
+    "end": 234,
+    "start": 226,
+    "chapter": "09 / NEXT STEP",
+    "title": "Validate with the operator",
+    "caption": "Next: approved operating records, calibrated surface-loss estimates and pilot evaluation. Reference evapotranspiration is a proxy, not measured reservoir evaporation.",
+    "visual": "next"
+  },
+  {
+    "end": 240,
+    "start": 234,
+    "chapter": "MAJISHIFT",
+    "title": "Keep the reserve.\nPlan the next move.",
+    "caption": "MajiShift. From environmental observations to an inspectable water-planning decision.",
+    "visual": "closing"
+  }
+]

@@ -77,7 +77,7 @@ void test('rainfall input requires seven credible daily values', () => {
 
 void test('daily Conduit evaporation changes the water balance', () => {
   const rain = [0, 0, 0, 0, 0, 0, 0];
-  const dailyEt = [11.6, 10.67, 8.48, 11.32, 12.75, 12.14, 12.61];
+  const dailyEt = [4.73, 4.35, 3.46, 4.62, 5.2, 4.95, 5.14];
   const withConduit = compare(defaults, rain, dailyEt);
   const fixedAssumption = compare(defaults, rain);
   assert.ok(

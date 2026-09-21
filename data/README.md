@@ -19,7 +19,7 @@ The app uses the consecutive 29 August-4 September 2026 window.
 3. Use the mean of each day's final Rain Gauge 1 Total Today and Rain Gauge 2 Total Today as measured daily rain. Both gauges report 0 mm throughout this replay.
 4. Calculate daily minimum, maximum and mean from SHT Temperature.
 5. Calculate daily extraterrestrial radiation from station latitude and day of year.
-6. Calculate daily reference evapotranspiration with the FAO-56 Hargreaves equation.
+6. Convert extraterrestrial radiation from MJ/m2/day to equivalent mm/day using 0.408, then calculate daily reference evapotranspiration with the FAO-56 Hargreaves equation. The executable calculation lives in lib/reference-et.ts; the replay totals 32.45 mm.
 7. Feed measured rain and daily reference evapotranspiration into the water balance, then compare with the same scenario using the fixed 4 mm/day evaporation assumption.
 
 lib/conduit-history.ts contains the reviewed daily aggregate used by the browser. It is deliberately small and inspectable. Reference evapotranspiration is an estimate of climatic evaporative demand; it is not measured reservoir evaporation. A field deployment must calibrate an open-water coefficient, verify the reservoir surface area and validate against operator records.

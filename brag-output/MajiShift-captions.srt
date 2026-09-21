@@ -1,0 +1,87 @@
+1
+00:00:00,000 --> 00:00:08,000
+MajiShift helps an operator compare pumping plans before an interruption puts essential water reserves under pressure.
+
+2
+00:00:08,000 --> 00:00:22,000
+Brian Mwangi: backend engineering, Adaption model training and data aggregation. Patrick Leon: frontend development, UI/UX, QA and GIS.
+
+3
+00:00:22,000 --> 00:00:32,000
+Essential use, irrigation and pumping availability all draw on the same limited water balance. Operators need to see the trade-offs.
+
+4
+00:00:32,000 --> 00:00:42,000
+Our JKUAT pilot exploration asks a practical question: can a proposed schedule maintain a minimum reserve through two unavailable pumping days?
+
+5
+00:00:42,000 --> 00:00:54,000
+The historical replay uses official Conduit station 61 observations from 29 August to 4 September 2026. Operating values remain synthetic.
+
+6
+00:00:54,000 --> 00:01:05,000
+Daily temperature ranges drive a Hargreaves reference evapotranspiration estimate. Measured rain also enters the water balance; this replay recorded no rain.
+
+7
+00:01:05,000 --> 00:01:16,000
+Compared with four millimetres per day, Conduit weather adds 35.6 cubic metres of estimated loss. Total default pumping remains unchanged.
+
+8
+00:01:16,000 --> 00:01:27,000
+This example starts with 9,000 cubic metres in storage, a 5,000 cubic metre reserve, and essential demand of 1,400 cubic metres daily.
+
+9
+00:01:27,000 --> 00:01:38,000
+Pumping is unavailable on days two and three. The fixed schedule pumps four hours on available days; the proposed plan prepares a buffer.
+
+10
+00:01:38,000 --> 00:01:50,000
+Both schedules use the same weather and operating assumptions. The teal line follows the proposed schedule; the dashed line follows the fixed schedule.
+
+11
+00:01:50,000 --> 00:02:01,000
+In this scenario, the fixed schedule falls below the reserve on five days. The proposed schedule stays above the reserve throughout.
+
+12
+00:02:01,000 --> 00:02:12,000
+The proposed plan pumps 7,875 cubic metres versus 5,000 for the fixed schedule. This protects the reserve through more pumping, not water savings.
+
+13
+00:02:12,000 --> 00:02:24,000
+Day one calls for 4.5 hours of pumping. Days two and three correctly show zero pumping because equipment is unavailable.
+
+14
+00:02:24,000 --> 00:02:35,000
+The table exposes each day’s rain, estimated loss, pumping hours and ending storage. Unserved irrigation and unmet essential demand are tracked explicitly.
+
+15
+00:02:35,000 --> 00:02:48,000
+Now reduce starting storage from 9,000 to 8,000 cubic metres and compare again. The same weather and outage assumptions remain in place.
+
+16
+00:02:48,000 --> 00:03:02,000
+Day-one pumping rises from 4.5 to 8.5 hours. The revised plan builds the same outage buffer from a lower starting level.
+
+17
+00:03:02,000 --> 00:03:16,000
+Export saves the inputs, weather provenance and calculated schedules as JSON. That gives the operator a record to review and share.
+
+18
+00:03:16,000 --> 00:03:27,000
+React and TypeScript present the planner and GIS view. A shared water-balance module compares schedules; the historical weather replay supplies daily inputs.
+
+19
+00:03:27,000 --> 00:03:36,000
+Adaption model-training experiments are a separate research track. The working schedules shown here come from the transparent planner, not a served AI model.
+
+20
+00:03:36,000 --> 00:03:46,000
+The intended benefit is earlier preparation and clearer reserve planning. These scenario results are not measured campus savings or evidence of field performance.
+
+21
+00:03:46,000 --> 00:03:54,000
+Next: approved operating records, calibrated surface-loss estimates and pilot evaluation. Reference evapotranspiration is a proxy, not measured reservoir evaporation.
+
+22
+00:03:54,000 --> 00:04:00,000
+MajiShift. From environmental observations to an inspectable water-planning decision.
