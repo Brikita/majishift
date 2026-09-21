@@ -4,7 +4,7 @@ Help reservoir operators compare pumping plans and maintain essential water rese
 
 ## Current slice
 
-A working seven-day historical replay and scenario calculator with a reserve-first planning heuristic, fixed-schedule comparison, editable operating assumptions, shortfall accounting, an accessible daily table, JSON export, and a responsive JKUAT campus atlas. The default replay uses the official Hack The Weather Conduit CSV for station 61: measured daily rain totals enter the water balance, while measured daily temperature ranges produce FAO-56 Hargreaves reference evapotranspiration. The dashboard quantifies the resulting change in surface loss, pumping and minimum storage against the fixed 4 mm/day assumption. A server-side adapter separately attempts the latest public observation and places the station on the map when available. Reservoir state, capacity, demand, pumps, outages and surface area remain synthetic. Pipe routes, treatment links, demand areas and the dam profile remain unverified. This is not a live campus control system, validated digital twin, forecast product or optimization proof.
+A working seven-day historical replay and scenario calculator with a reserve-first planning heuristic, fixed-schedule comparison, editable operating assumptions, shortfall accounting, an accessible daily table, JSON export, and a responsive JKUAT campus atlas. The default replay uses the official Hack The Weather Conduit CSV for station 61: measured daily rain totals enter the water balance, while measured daily temperature ranges produce FAO-56 Hargreaves reference evapotranspiration. The dashboard quantifies the resulting change in surface loss, pumping and minimum storage against the fixed 4 mm/day assumption. A server-side adapter separately requests the latest authenticated observation from the official Conduit API and places the station on the map when available. Reservoir state, capacity, demand, pumps, outages and surface area remain synthetic. Pipe routes, treatment links, demand areas and the dam profile remain unverified. This is not a live campus control system, validated digital twin, forecast product or optimization proof.
 
 ## Meaningful Conduit use
 
@@ -12,7 +12,9 @@ The default 29 August-4 September 2026 replay converts more than 9,800 station o
 
 ## Run
 
-Node 22.13+; `npm install`, `npm run dev`. `npm test` checks mass balance, outages, infeasibility and input validation. `npm run build` creates the Sites-compatible Worker. `npx tsc --noEmit` checks types.
+Node 22.13+; `npm install`, `npm run dev`. To enable the optional live observation, set `CONDUIT_API_KEY` and `CONDUIT_EMAIL` in `.env.local` or in the deployment provider's encrypted server environment. The browser calls `/api/conduit`; credentials are submitted only from that server route to `https://conduit.jhubafrica.com/data.php`. Never prefix these variables with `NEXT_PUBLIC_` or commit them. The verified historical replay remains available if the live API has no recent data, rejects the account, or times out.
+
+`npm test` checks mass balance, outages, infeasibility and input validation. `npm run build` creates the Sites-compatible Worker. `npx tsc --noEmit` checks types.
 
 React + TypeScript, Vinext/Vite, Tailwind and Shadcn components. A pure TypeScript domain module is shared independently of the UI. Sites provides the private preview. No database is needed for the first session-based simulator; exported scenarios preserve inputs and computed outputs. No inputs are saved automatically between visits.
 
