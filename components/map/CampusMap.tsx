@@ -59,7 +59,27 @@ export function CampusMap({
         if (disposed || !containerRef.current) return;
         const map = new maplibre.Map({
           container: containerRef.current,
-          style: 'https://tiles.openfreemap.org/styles/bright',
+          style: {
+            version: 8,
+            sources: {
+              'esri-world-imagery': {
+                type: 'raster',
+                tiles: [
+                  'https://server.arcgisonline.com/ArcGIS/rest/services/World_Imagery/MapServer/tile/{z}/{y}/{x}',
+                ],
+                tileSize: 256,
+                attribution:
+                  'Source: Esri, Maxar, Earthstar Geographics, and the GIS User Community',
+              },
+            },
+            layers: [
+              {
+                id: 'esri-world-imagery',
+                type: 'raster',
+                source: 'esri-world-imagery',
+              },
+            ],
+          },
           center: [37.0152, -1.092],
           zoom: 15.2,
           pitch: 48,
@@ -83,13 +103,6 @@ export function CampusMap({
 
         map.once('style.load', () => {
           if (disposed) return;
-          const layers = map.getStyle().layers ?? [];
-          const labelLayer = layers.find(
-            (layer) =>
-              layer.type === 'symbol' &&
-              Boolean(layer.layout && layer.layout['text-field']),
-          )?.id;
-
           map.addSource('majishift-openfreemap', {
             type: 'vector',
             url: 'https://tiles.openfreemap.org/planet',
@@ -121,7 +134,6 @@ export function CampusMap({
                 ],
               },
             },
-            labelLayer,
           );
 
           map.addSource('majishift-assets', {
@@ -488,7 +500,8 @@ export function CampusMap({
       </div>
 
       <p className="atlas-footnote">
-        Map © OpenStreetMap contributors · Building context © OpenFreeMap. Map
+        Imagery © Esri, Maxar, Earthstar Geographics and the GIS User Community
+        · Building context © OpenFreeMap / OpenStreetMap contributors. Map
         geometry does not establish storage capacity, pipe routes or service
         outcomes.
       </p>
